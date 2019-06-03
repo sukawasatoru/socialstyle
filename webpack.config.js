@@ -26,7 +26,13 @@ const common = {
         new ForkTsCheckerWebpackPlugin()
     ],
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.json']
+        alias: {
+            'core-js': path.resolve(__dirname, 'node_modules/core-js'),
+            react: path.resolve(__dirname, 'node_modules/react'),
+            'react-dom': path.resolve(__dirname, 'node_modules/react-dom')
+        },
+        modules: [ 'node_modules' ],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
     },
     module: {
         rules: [

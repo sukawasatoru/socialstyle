@@ -2,6 +2,9 @@
 
 const isDev = process.env.NODE_ENV !== 'production';
 
+/**
+ * @type {babel.TransformOptions}
+ */
 module.exports = {
     presets: [
         ["@babel/preset-env"],
@@ -11,7 +14,6 @@ module.exports = {
         ["@babel/preset-typescript"],
     ],
     plugins: [
-        "@babel/proposal-class-properties",
-        "@babel/proposal-object-rest-spread"
+        "@babel/plugin-transform-runtime"
     ]
 };
