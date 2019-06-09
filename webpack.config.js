@@ -23,7 +23,7 @@ const common = {
     },
     plugins: [
         new HtmlWebpackPlugin({template: './src/index.html'}),
-        new ForkTsCheckerWebpackPlugin()
+        new ForkTsCheckerWebpackPlugin(),
     ],
     resolve: {
         alias: {
@@ -31,7 +31,7 @@ const common = {
             react: path.resolve(__dirname, 'node_modules/react'),
             'react-dom': path.resolve(__dirname, 'node_modules/react-dom')
         },
-        modules: [ 'node_modules' ],
+        modules: ['node_modules'],
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
     },
     module: {
@@ -54,6 +54,13 @@ if (process.env.NODE_ENV === 'production') {
     config = webpackMerge(common, {
         mode: 'development',
         devtool: 'inline-source-map',
+    });
+}
+
+if (process.env.BUNDLE_ANALYZER) {
+    const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+    config = webpackMerge(config, {
+        plugins: [new BundleAnalyzerPlugin()]
     });
 }
 
