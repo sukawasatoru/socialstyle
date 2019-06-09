@@ -98,7 +98,7 @@ const SocialStyleGraph = (props: Props) => {
             width: windowSize,
             height: windowSize,
         };
-    }, [windowSize]);
+    }, [props.layout, windowSize]);
     const cbZoomOut = useCallback(() => setWindowSize(prevState => prevState - 20), [setWindowSize]);
     const cbZoomIn = useCallback(() => setWindowSize(prevState => prevState + 20), [setWindowSize]);
 
