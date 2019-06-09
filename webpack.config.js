@@ -27,9 +27,7 @@ const common = {
     ],
     resolve: {
         alias: {
-            'core-js': path.resolve(__dirname, 'node_modules/core-js'),
-            react: path.resolve(__dirname, 'node_modules/react'),
-            'react-dom': path.resolve(__dirname, 'node_modules/react-dom')
+            'plotly.js': 'plotly.js/lib/index-cartesian'
         },
         modules: ['node_modules'],
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']

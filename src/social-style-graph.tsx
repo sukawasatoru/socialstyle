@@ -1,8 +1,11 @@
 import * as React from 'react';
 import {useCallback, useMemo, useState} from 'react';
-import Plot from 'react-plotly.js';
+import plotComponentFactory from 'react-plotly.js/factory';
+import * as Plotly from 'plotly.js';
 import {Data as PlotlyData, Layout as PlotlyLayout} from 'plotly.js';
 import {Button, ButtonGroup, Container, Row} from 'react-bootstrap';
+
+const Plot = plotComponentFactory(Plotly);
 
 const createPoint = (name: string, x: number, y: number): PlotlyData => {
     return {

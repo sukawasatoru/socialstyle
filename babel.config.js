@@ -14,6 +14,7 @@ module.exports = {
         ["@babel/preset-typescript"],
     ],
     plugins: [
-        "@babel/plugin-transform-runtime"
+        "@babel/plugin-syntax-dynamic-import",
+        "@babel/plugin-transform-runtime",
     ]
 };

@@ -1,7 +1,5 @@
-import * as xlsx from 'xlsx';
-import {WorkBook} from 'xlsx';
-
-const createBookByWorkBook = (book: WorkBook): JsonBook => {
+const createBookByWorkBook = async (book: import('xlsx').WorkBook): Promise<JsonBook> => {
+    const xlsx = await import('xlsx');
     const sheets = new Map<string, JsonSheet>();
     for (const [key, sheet] of Object.entries(book.Sheets)) {
         sheets.set(key, new JsonSheet(xlsx.utils.sheet_to_json(sheet, {header: 1})));
@@ -10,8 +8,9 @@ const createBookByWorkBook = (book: WorkBook): JsonBook => {
     return new JsonBook(sheets);
 };
 
-const createBookByPath = (filePath: string): JsonBook => {
-    return createBookByWorkBook(xlsx.readFile(filePath));
+const createBookByPath = async (filePath: string): Promise<JsonBook> => {
+    const {readFile} = await import('xlsx');
+    return createBookByWorkBook(readFile(filePath));
 };
 
 const createBookByFile = (file: File): Promise<JsonBook> => {
@@ -20,9 +19,10 @@ const createBookByFile = (file: File): Promise<JsonBook> => {
 
     return new Promise(resolve => {
         // https://github.com/microsoft/TSJS-lib-generator/pull/704
-        reader.onload = (e: any) => {
-            const book = xlsx.read(e.target.result, {type: isBinary ? 'binary' : 'array'});
-            resolve(createBookByWorkBook(book));
+        reader.onload = async (e: any) => {
+            const {read} = await import('xlsx');
+            const book = read(e.target.result, {type: isBinary ? 'binary' : 'array'});
+            resolve(await createBookByWorkBook(book));
         };
         if (isBinary) {
             reader.readAsBinaryString(file);
