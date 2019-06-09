@@ -90,7 +90,7 @@ interface Props {
 }
 
 const SocialStyleGraph = (props: Props) => {
-    const [windowSize, setWindowSize] = useState(480);
+    const [windowSize, setWindowSize] = useState(() => 480 <= window.innerWidth ? 480 : 320);
     const plotlyLayout = useMemo(() => {
         const data = props.layout ? props.layout : socialStyleLayout;
         return {
