@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {FunctionComponent, useCallback, useMemo, useState} from 'react';
-import {Button, Col, Container, Modal, Row} from "react-bootstrap";
+import {Button, Col, Container, Modal, Row, Spinner} from "react-bootstrap";
 import SocialStyleGraphInput, {Entity} from "./social-style-graph-input";
 import SocialStyleGraph from "./social-style-graph";
 
@@ -120,7 +120,11 @@ const questions2: Entity[] = [
     },
 ];
 
-const CheckSheet: FunctionComponent<unknown> = () => {
+export interface Props {
+    plotly?: typeof import('plotly.js');
+}
+
+const CheckSheet: FunctionComponent<Props> = (props) => {
     const level = 4;
     const [tell, setTell] = useState(new Map<string, number>());
     const [emote, setEmote] = useState(new Map<string, number>());
@@ -171,7 +175,14 @@ const CheckSheet: FunctionComponent<unknown> = () => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <SocialStyleGraph data={result}/>
+                {props.plotly === undefined &&
+                <div className='mx-auto' style={{width: 'max-content'}}>
+                    <Spinner animation='border' variant='primary'/>
+                </div>
+                }
+                {props.plotly &&
+                <SocialStyleGraph data={result} plotly={props.plotly}/>
+                }
             </Modal.Body>
         </Modal>
     </>;

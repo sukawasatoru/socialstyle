@@ -2,12 +2,9 @@ import * as React from 'react';
 import {useCallback, useMemo, useState} from 'react';
 import plotComponentFactory from 'react-plotly.js/factory';
 import * as Plotly from 'plotly.js';
-import {Data as PlotlyData, Layout as PlotlyLayout} from 'plotly.js';
 import {Button, ButtonGroup, Container, Row} from 'react-bootstrap';
 
-const Plot = plotComponentFactory(Plotly);
-
-const createPoint = (name: string, x: number, y: number): PlotlyData => {
+const createPoint = (name: string, x: number, y: number): import('plotly.js').Data => {
     return {
         x: [x],
         y: [y],
@@ -25,7 +22,7 @@ export interface SocialStyleEntity {
     y: number;
 }
 
-const socialStyleLayout: Partial<PlotlyLayout> = {
+const socialStyleLayout: Partial<import('plotly.js').Layout> = {
     showlegend: false,
     hovermode: 'closest',
     margin: {t: 0, b: 0, l: 0, r: 0},
@@ -89,10 +86,12 @@ const socialStyleLayout: Partial<PlotlyLayout> = {
 
 interface Props {
     data: SocialStyleEntity[];
-    layout?: Partial<PlotlyLayout>;
+    layout?: Partial<import('plotly.js').Layout>;
+    plotly: typeof import('plotly.js');
 }
 
 const SocialStyleGraph = (props: Props) => {
+    const Plot = plotComponentFactory(props.plotly);
     const [windowSize, setWindowSize] = useState(() => 480 <= window.innerWidth ? 480 : 320);
     const plotlyLayout = useMemo(() => {
         const data = props.layout ? props.layout : socialStyleLayout;

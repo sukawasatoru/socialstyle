@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {ChangeEvent, FunctionComponent, useCallback, useEffect, useState} from 'react';
-import {Container, InputGroup, Row} from "react-bootstrap";
+import {Container, InputGroup, Row, Spinner} from "react-bootstrap";
 import {createBookByFile} from "./json-book";
 import SocialStyleGraph, {SocialStyleEntity} from "./social-style-graph";
 
@@ -60,7 +60,11 @@ class DeptGraphEntity {
     }
 }
 
-const DeptSocialStyles: FunctionComponent<unknown> = () => {
+export interface Props {
+    plotly?: typeof import('plotly.js');
+}
+
+const DeptSocialStyles: FunctionComponent<Props> = (props) => {
     const [inputFile, setInputFile] = useState<File>();
     const [graphSource, setGraphSource] = useState<SocialStyleEntity[]>([]);
     const onInputFile = useCallback((args: ChangeEvent<HTMLInputElement>) => {
@@ -122,7 +126,14 @@ const DeptSocialStyles: FunctionComponent<unknown> = () => {
             </InputGroup>
         </Row>
         <Row>
-            <SocialStyleGraph data={graphSource}/>
+            {props.plotly === undefined &&
+            <div className='mx-auto' style={{width: 'max-content'}}>
+                <Spinner animation='border' variant='primary'/>
+            </div>
+            }
+            {props.plotly &&
+            <SocialStyleGraph data={graphSource} plotly={props.plotly}/>
+            }
         </Row>
     </Container>;
 };
