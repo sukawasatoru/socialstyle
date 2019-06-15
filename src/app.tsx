@@ -3,7 +3,7 @@ import {useCallback, useEffect, useState} from 'react';
 import {Nav, Navbar} from 'react-bootstrap';
 import CheckSheet from './check-sheet';
 import DeptSocialStyles from './dept-social-styles';
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'material-design-icons/iconfont/material-icons.css';
 import './app.css';
 
