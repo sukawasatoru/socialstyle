@@ -17,7 +17,7 @@ endif
 
 all: release
 
-release: setup
+release: | setup check
 	$(NPM) run build
 
 clean:
@@ -26,8 +26,9 @@ clean:
 distclean: clean
 	-$(RMRF) node_modules
 
-check:
-	$(NPX) eslint --ext .js,.jsx,.ts,.tsx src
+check: setup
+	$(NPM) run check
+
 test:
 	$(NPM) test
 
