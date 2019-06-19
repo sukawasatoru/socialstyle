@@ -16,8 +16,8 @@
 
 import {default as React, useCallback, useEffect, useState} from 'react';
 import {Nav, Navbar} from 'react-bootstrap';
-import CheckSheet from './check-sheet';
-import DeptSocialStyles from './dept-social-styles';
+import CheckSheet from './CheckSheet';
+import DeptSocialStyles from './DeptSocialStyles';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'material-design-icons/iconfont/material-icons.css';
 import './app.css';

@@ -16,8 +16,8 @@
 
 import {ChangeEvent, default as React, FunctionComponent, useCallback, useEffect, useState} from 'react';
 import {Container, InputGroup, Row, Spinner} from "react-bootstrap";
-import {createBookByFile} from "./json-book";
-import SocialStyleGraph, {SocialStyleEntity} from "./social-style-graph";
+import {createBookByFile} from "./JsonBook";
+import SocialStyleGraph, {SocialStyleEntity} from "./SocialStyleGraph";
 
 const supportFileTypes = [
     '.xlsx',
