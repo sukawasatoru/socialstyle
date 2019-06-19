@@ -31,7 +31,7 @@ const CheckSheetPreferences: FunctionComponent<Props> = (props) => {
             setQuestionLevel(value);
             props.onQuestionLevelChanged(parseInt(value));
         }
-    }, [props.onQuestionLevelChanged]);
+    }, [props, setQuestionLevel]);
 
     return <Form>
         <Form.Group>

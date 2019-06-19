@@ -26,7 +26,7 @@ const ZoomInOutButton: FunctionComponent<Props> = (props) => {
     const [windowSize, setWindowSize] = useState(() => 480 <= window.innerWidth ? 480 : 320);
     const cbZoomOut = useCallback(() => setWindowSize(prevState => prevState - 20), [setWindowSize]);
     const cbZoomIn = useCallback(() => setWindowSize(prevState => prevState + 20), [setWindowSize]);
-    useEffect(() => props.onSizeChanged && props.onSizeChanged(windowSize), [props.onSizeChanged, windowSize]);
+    useEffect(() => props.onSizeChanged && props.onSizeChanged(windowSize), [props, windowSize]);
 
     return <ButtonGroup>
         <Button variant='outline-primary' onClick={cbZoomOut}>

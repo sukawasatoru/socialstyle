@@ -169,7 +169,7 @@ const CheckSheet: FunctionComponent<Props> = (props) => {
             y += value * yRatio;
         }
         return [{name: 'You', x, y}];
-    }, [tell, emote]);
+    }, [tell, emote, questionLevel]);
     const [showModal, setShowModal] = useState(false);
     const cbShowModal = useCallback(() => setShowModal(true), [setShowModal]);
     const hideModal = useCallback(() => setShowModal(false), [setShowModal]);

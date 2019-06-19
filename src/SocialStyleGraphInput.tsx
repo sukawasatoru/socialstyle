@@ -45,7 +45,7 @@ const SocialStyleGraphInput = (props: Props) => {
         result.clear();
         setEntityHeader(new Date().getMilliseconds());
         input(new Map(result));
-    }, [props.entities, levelNum, input]);
+    }, [props.entities, result, levelNum, input]);
 
     return <Table striped bordered className='table-sm table-hover'>
         <tbody>
