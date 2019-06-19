@@ -1,6 +1,6 @@
 SHELL = /bin/sh
 .SUFFIXES:
-.PHONY: all release clean distclean check test deploy setup
+.PHONY: all release debug clean distclean check test deploy setup
 NPM = npm
 NPX = npx
 RM = rm -f
@@ -19,6 +19,9 @@ all: release
 
 release: | setup check
 	$(NPM) run build
+
+debug: setup
+	$(NPM) run debug
 
 clean:
 	-$(RMRF) dist
