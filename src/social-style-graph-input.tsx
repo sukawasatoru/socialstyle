@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import * as React from 'react';
-import {useMemo, useState} from 'react';
+import {default as React, useMemo, useState} from 'react';
 import {Col, Table, ToggleButton, ToggleButtonGroup} from 'react-bootstrap';
 
 type Props = {

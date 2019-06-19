@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import * as React from 'react';
-import {useCallback, useEffect, useState} from 'react';
+import {default as React, useCallback, useEffect, useState} from 'react';
 import {Nav, Navbar} from 'react-bootstrap';
 import CheckSheet from './check-sheet';
 import DeptSocialStyles from './dept-social-styles';

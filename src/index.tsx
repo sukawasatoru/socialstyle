@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as React from 'react';
+import {default as React} from 'react';
 import {render} from 'react-dom';
 import App from './app';
 

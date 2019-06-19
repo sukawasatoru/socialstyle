@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import * as React from 'react';
-import {ChangeEvent, FunctionComponent, useCallback, useEffect, useState} from 'react';
+import {ChangeEvent, default as React, FunctionComponent, useCallback, useEffect, useState} from 'react';
 import {Container, InputGroup, Row, Spinner} from "react-bootstrap";
 import {createBookByFile} from "./json-book";
 import SocialStyleGraph, {SocialStyleEntity} from "./social-style-graph";

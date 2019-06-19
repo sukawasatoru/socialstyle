@@ -3,16 +3,14 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "jsx": "react",
     "sourceMap": true,
     "lib": [
       "dom",
       "dom.iterable",
-      "es2018",
-      "es2018.intl",
-      "es2018.promise",
-      "es2018.regexp",
-      "scripthost"
+      "esnext"
     ],
     "rootDirs": [
       "src",
@@ -20,15 +18,10 @@
     ],
     "baseUrl": "src",
     "newLine": "LF",
-    "removeComments": true,
-    "outDir": "dist",
     "noEmit": true,
     "strict": true
   },
   "include": [
     "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
   ]
 }

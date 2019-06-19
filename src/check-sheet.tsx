@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import * as React from 'react';
-import {FunctionComponent, useCallback, useMemo, useState} from 'react';
+import {default as React, FunctionComponent, useCallback, useMemo, useState} from 'react';
 import {Button, Col, Container, Modal, Row, Spinner} from "react-bootstrap";
 import SocialStyleGraphInput, {Entity} from "./social-style-graph-input";
 import SocialStyleGraph from "./social-style-graph";
