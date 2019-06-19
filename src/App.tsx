@@ -44,7 +44,7 @@ const App = () => {
         </Navbar>
         {currentPage === 'checkSheet' &&
         <Container className='my-4' style={{maxWidth: '48em'}}>
-            <CheckSheet plotly={plotly} defaultQuestionLevel={4}/>
+            <CheckSheet plotly={plotly} defaultQuestionLevel={5}/>
         </Container>
         }
         {currentPage === 'user' &&
