@@ -30,7 +30,7 @@ const webpackMerge = require('webpack-merge');
 /**
  *  @type {webpack.Configuration}
  */
-const common = {
+let config = {
     target: 'web',
     entry: './src/index.tsx',
     output: {
@@ -57,15 +57,26 @@ const common = {
     },
 };
 
-let config;
+// noinspection JSUndefinedPropertyAssignment
+/**
+ * @type {WebpackDevServer.Configuration}
+ */
+config.devServer = {
+    host: '0.0.0.0',
+    hot: true,
+    overlay: {
+        warnings: true,
+        errors: true,
+    },
+};
 
 if (process.env.NODE_ENV === 'production') {
-    config = webpackMerge(common, {
+    config = webpackMerge(config, {
         mode: 'production',
         devtool: 'source-map',
     });
 } else {
-    config = webpackMerge(common, {
+    config = webpackMerge(config, {
         mode: 'development',
         devtool: 'inline-source-map',
     });
