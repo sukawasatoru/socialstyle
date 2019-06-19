@@ -15,7 +15,7 @@
  */
 
 import {default as React, useCallback, useEffect, useState} from 'react';
-import {Nav, Navbar} from 'react-bootstrap';
+import {Container, Nav, Navbar} from 'react-bootstrap';
 import CheckSheet from './CheckSheet';
 import DeptSocialStyles from './DeptSocialStyles';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -42,8 +42,16 @@ const App = () => {
                 <Nav.Link eventKey='user'>ファイルの読み込み</Nav.Link>
             </Nav>
         </Navbar>
-        {currentPage === 'checkSheet' && <CheckSheet plotly={plotly}/>}
-        {currentPage === 'user' && <DeptSocialStyles plotly={plotly}/>}
+        {currentPage === 'checkSheet' &&
+        <Container className='my-4' style={{maxWidth: '48em'}}>
+            <CheckSheet plotly={plotly} defaultQuestionLevel={4}/>
+        </Container>
+        }
+        {currentPage === 'user' &&
+        <Container className='my-4' style={{maxWidth: '48em'}}>
+            <DeptSocialStyles plotly={plotly}/>
+        </Container>
+        }
     </>;
 };
 

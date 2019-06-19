@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import {default as React, useMemo, useState} from 'react';
+import {default as React, useEffect, useMemo, useState} from 'react';
 import {Col, Table, ToggleButton, ToggleButtonGroup} from 'react-bootstrap';
 
-type Props = {
+interface Props {
     entities: Entity[];
     levelNum?: number;
     input?: (data: Map<string, number>) => void;
@@ -38,10 +38,19 @@ const SocialStyleGraphInput = (props: Props) => {
     const levelNum = useMemo(() => props.levelNum ? props.levelNum : 4, [props.levelNum]);
     const [result] = useState(new Map());
 
+    // for clear widget state.
+    const [entityHeader, setEntityHeader] = useState(new Date().getMilliseconds());
+
+    useEffect(() => {
+        result.clear();
+        setEntityHeader(new Date().getMilliseconds());
+        input(new Map(result));
+    }, [props.entities, levelNum, input]);
+
     return <Table striped bordered className='table-sm table-hover'>
         <tbody>
         {props.entities.map(data =>
-            <tr key={data.name}>
+            <tr key={`${entityHeader}-${data.name}`}>
                 <td className='pl-4 align-middle'>
                     {data.lhDescription}
                 </td>

@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-import {ChangeEvent, default as React, FunctionComponent, useCallback, useEffect, useState} from 'react';
-import {Container, InputGroup, Row, Spinner} from "react-bootstrap";
+import {ChangeEvent, default as React, FunctionComponent, useCallback, useEffect, useMemo, useState} from 'react';
+import {InputGroup, Row, Spinner} from "react-bootstrap";
 import {createBookByFile} from "./JsonBook";
 import SocialStyleGraph, {SocialStyleEntity} from "./SocialStyleGraph";
+import ZoomInOutButton from "./ZoomInOutButton";
 
 const supportFileTypes = [
     '.xlsx',
@@ -80,6 +81,8 @@ export interface Props {
 }
 
 const DeptSocialStyles: FunctionComponent<Props> = (props) => {
+    const defaultGraphSize = 480 <= window.innerWidth ? 480 : 320;
+    const [graphSize, setGraphSize] = useState(defaultGraphSize);
     const [inputFile, setInputFile] = useState<File>();
     const [graphSource, setGraphSource] = useState<SocialStyleEntity[]>([]);
     const onInputFile = useCallback((args: ChangeEvent<HTMLInputElement>) => {
@@ -94,6 +97,12 @@ const DeptSocialStyles: FunctionComponent<Props> = (props) => {
 
         setInputFile(file);
     }, [setInputFile]);
+
+    const cbSizeChanged = useCallback((size: number) => setGraphSize(size), [setGraphSize]);
+    const graphLayout: Partial<import('plotly.js').Layout> = useMemo(() => ({
+        width: graphSize,
+        height: graphSize,
+    }), [graphSize]);
 
     useEffect(() => {
         const load = async () => {
@@ -123,34 +132,34 @@ const DeptSocialStyles: FunctionComponent<Props> = (props) => {
         load();
     }, [inputFile]);
 
-    return <Container className='my-4'>
-        <Row className='mb-2'>
-            <InputGroup style={{maxWidth: '48em'}}>
-                <div className='custom-file'>
-                    <input
-                        id='input-sheet'
-                        className='custom-file-input'
-                        type='file'
-                        accept={supportFileTypes.join(',')}
-                        onChange={onInputFile}
-                    />
-                    <label className='custom-file-label' form='input-sheet'>
-                        ソーシャルスタイル診断.xlsx ...
-                    </label>
-                </div>
-            </InputGroup>
-        </Row>
-        <Row>
-            {props.plotly === undefined &&
-            <div className='mx-auto' style={{width: 'max-content'}}>
-                <Spinner animation='border' variant='primary'/>
+    return <>
+        <InputGroup className='mb-2'>
+            <div className='custom-file'>
+                <input
+                    id='input-sheet'
+                    className='custom-file-input'
+                    type='file'
+                    accept={supportFileTypes.join(',')}
+                    onChange={onInputFile}
+                />
+                <label className='custom-file-label' htmlFor='input-sheet'>
+                    ソーシャルスタイル診断.xlsx ...
+                </label>
             </div>
-            }
-            {props.plotly &&
-            <SocialStyleGraph data={graphSource} plotly={props.plotly}/>
-            }
-        </Row>
-    </Container>;
+        </InputGroup>
+        {props.plotly === undefined &&
+        <div className='mx-auto' style={{width: 'max-content'}}>
+            <Spinner animation='border' variant='primary'/>
+        </div>
+        }
+        {props.plotly && <>
+            <Row noGutters className='mb-1'>
+                <ZoomInOutButton defaultSize={defaultGraphSize} onSizeChanged={cbSizeChanged}/>
+            </Row>
+            <SocialStyleGraph data={graphSource} plotly={props.plotly} layout={graphLayout}/>
+        </>
+        }
+    </>;
 };
 
 export default DeptSocialStyles;

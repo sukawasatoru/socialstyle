@@ -15,9 +15,10 @@
  */
 
 import {default as React, FunctionComponent, useCallback, useMemo, useState} from 'react';
-import {Button, Col, Container, Modal, Row, Spinner} from "react-bootstrap";
+import {Button, Modal, Row, Spinner} from "react-bootstrap";
 import SocialStyleGraphInput, {Entity} from "./SocialStyleGraphInput";
 import SocialStyleGraph from "./SocialStyleGraph";
+import CheckSheetPreferences from "./CheckSheetPreferences";
 
 const questions: Entity[] = [
     {
@@ -135,12 +136,21 @@ const questions2: Entity[] = [
     },
 ];
 
-export interface Props {
+interface Props {
     plotly?: typeof import('plotly.js');
+    defaultQuestionLevel?: number;
 }
 
 const CheckSheet: FunctionComponent<Props> = (props) => {
-    const level = 4;
+    const graphSize = 480 <= window.innerWidth ? 480 : 320;
+    const graphLayout: Partial<import('plotly.js').Layout> = {
+        width: graphSize,
+        height: graphSize,
+    };
+    const [questionLevel, setQuestionLevel] = useState(props.defaultQuestionLevel ? props.defaultQuestionLevel : 4);
+    const cbQuestionLevel = useCallback((level: number) => {
+        setQuestionLevel(level);
+    }, [setQuestionLevel]);
     const [tell, setTell] = useState(new Map<string, number>());
     const [emote, setEmote] = useState(new Map<string, number>());
     const result = useMemo(() => {
@@ -148,12 +158,12 @@ const CheckSheet: FunctionComponent<Props> = (props) => {
             return [];
         }
 
-        const xRatio = 100 / questions.length / (level - 1);
+        const xRatio = 100 / questions.length / (questionLevel - 1);
         let x = 0;
         for (let value of tell.values()) {
             x += value * xRatio;
         }
-        const yRatio = 100 / questions2.length / (level - 1);
+        const yRatio = 100 / questions2.length / (questionLevel - 1);
         let y = 0;
         for (let value of emote.values()) {
             y += value * yRatio;
@@ -165,39 +175,31 @@ const CheckSheet: FunctionComponent<Props> = (props) => {
     const hideModal = useCallback(() => setShowModal(false), [setShowModal]);
 
     return <>
-        <Container className='my-4'>
-            <Row>
-                <Col style={{maxWidth: '48em'}}>
-                    <SocialStyleGraphInput entities={questions} input={setTell} levelNum={level}/>
-                    <SocialStyleGraphInput entities={questions2} input={setEmote} levelNum={level}/>
-                    <Row noGutters>
-                        <Button
-                            className='ml-auto'
-                            variant='primary'
-                            disabled={result.length === 0}
-                            onClick={cbShowModal}
-                        >
-                            診断
-                        </Button>
-                    </Row>
-                </Col>
-            </Row>
-        </Container>
+        <CheckSheetPreferences defaultQuestionLevel={questionLevel} onQuestionLevelChanged={cbQuestionLevel}/>
+        <div className='mt-4'/>
+        <SocialStyleGraphInput entities={questions} input={setTell} levelNum={questionLevel}/>
+        <SocialStyleGraphInput entities={questions2} input={setEmote} levelNum={questionLevel}/>
+        <Row noGutters>
+            <Button
+                className='ml-auto'
+                variant='primary'
+                disabled={result.length === 0}
+                onClick={cbShowModal}
+            >
+                診断
+            </Button>
+        </Row>
         <Modal show={showModal} size='xl' onHide={hideModal}>
             <Modal.Header closeButton onHide={hideModal}>
                 <Modal.Title>
                     Social Style
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-                {props.plotly === undefined &&
+            <Modal.Body className='px-0'>
                 <div className='mx-auto' style={{width: 'max-content'}}>
-                    <Spinner animation='border' variant='primary'/>
+                    {props.plotly === undefined && <Spinner animation='border' variant='primary'/>}
+                    {props.plotly && <SocialStyleGraph data={result} plotly={props.plotly} layout={graphLayout}/>}
                 </div>
-                }
-                {props.plotly &&
-                <SocialStyleGraph data={result} plotly={props.plotly}/>
-                }
             </Modal.Body>
         </Modal>
     </>;

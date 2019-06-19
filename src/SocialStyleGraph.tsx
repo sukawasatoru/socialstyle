@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import {default as React, useCallback, useMemo, useState} from 'react';
+import {default as React, useMemo} from 'react';
 import plotComponentFactory from 'react-plotly.js/factory';
-import {Button, ButtonGroup, Container, Row} from 'react-bootstrap';
 
 const createPoint = (name: string, x: number, y: number): import('plotly.js').Data => {
     return {
@@ -106,41 +105,13 @@ interface Props {
 
 const SocialStyleGraph = (props: Props) => {
     const Plot = plotComponentFactory(props.plotly);
-    const [windowSize, setWindowSize] = useState(() => 480 <= window.innerWidth ? 480 : 320);
-    const plotlyLayout = useMemo(() => {
-        const data = props.layout ? props.layout : socialStyleLayout;
-        return {
-            ...data,
-            width: windowSize,
-            height: windowSize,
-        };
-    }, [props.layout, windowSize]);
-    const cbZoomOut = useCallback(() => setWindowSize(prevState => prevState - 20), [setWindowSize]);
-    const cbZoomIn = useCallback(() => setWindowSize(prevState => prevState + 20), [setWindowSize]);
+    const plotlyLayout = useMemo(() => Object.assign({}, socialStyleLayout, props.layout), [props.layout]);
 
-    return <Container>
-        <Row className='mb-1'>
-            <ButtonGroup>
-                <Button variant='outline-primary' onClick={cbZoomOut}>
-                    <i className='material-icons'>
-                        zoom_out
-                    </i>
-                </Button>
-                <Button variant='outline-primary' onClick={cbZoomIn}>
-                    <i className='material-icons'>
-                        zoom_in
-                    </i>
-                </Button>
-            </ButtonGroup>
-        </Row>
-        <Row>
-            <Plot
-                className='border border-primary'
-                data={props.data.map(data => createPoint(data.name, data.x, data.y))}
-                layout={plotlyLayout}
-            />
-        </Row>
-    </Container>;
+    return <Plot
+        className='border border-primary'
+        data={props.data.map(data => createPoint(data.name, data.x, data.y))}
+        layout={plotlyLayout}
+    />;
 };
 
 export default SocialStyleGraph;
