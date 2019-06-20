@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {default as React, useCallback, useEffect, useState} from 'react';
+import {CSSProperties, default as React, useCallback, useEffect, useState} from 'react';
 import {Container, Nav, Navbar} from 'react-bootstrap';
 import CheckSheet from './CheckSheet';
 import DeptSocialStyles from './DeptSocialStyles';
@@ -23,6 +23,13 @@ import 'material-design-icons/iconfont/material-icons.css';
 import './app.css';
 
 type PageType = 'checkSheet' | 'user';
+
+const brandStyle: CSSProperties = {
+    userSelect: 'none',
+    WebkitUserSelect: 'none',
+    MozUserSelect: 'none',
+    msUserSelect: 'none',
+};
 
 const App = () => {
     const [currentPage, setCurrentPage] = useState<PageType>('checkSheet');
@@ -36,7 +43,7 @@ const App = () => {
 
     return <>
         <Navbar bg='primary' variant='dark' onSelect={cbSetCurrentPage}>
-            <Navbar.Brand>Social Styles</Navbar.Brand>
+            <Navbar.Brand style={brandStyle}>Social Styles</Navbar.Brand>
             <Nav defaultActiveKey='checkSheet'>
                 <Nav.Link eventKey='checkSheet'>診断する</Nav.Link>
                 <Nav.Link eventKey='user'>ファイルの読み込み</Nav.Link>
