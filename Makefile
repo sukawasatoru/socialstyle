@@ -1,8 +1,8 @@
 SHELL = /bin/sh
 .SUFFIXES:
 .PHONY: all release debug clean distclean check test deploy setup
-NPM = npm
-NPX = npx
+NPM = pnpm
+NPX = pnpx
 RM = rm -f
 RMRF = rm -rf
 touch = touch $(1)
