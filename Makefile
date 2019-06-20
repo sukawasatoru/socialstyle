@@ -1,6 +1,7 @@
 SHELL = /bin/sh
 .SUFFIXES:
 .PHONY: all release debug clean distclean test deploy setup
+GIT = git
 NPM = npm
 NPX = npx
 RM = rm -f
@@ -37,6 +38,8 @@ ifeq ($(CI)$(FORCE_DEPLOY),)
 	@echo If you want to deploy, should set variable "FORCE_DEPLOY=true"
 	exit 1
 endif
+	$(GIT) add -NA
+	$(GIT) diff --exit-code
 	$(MAKE) clean
 	$(MAKE) release
 	$(NPX) gh-pages --dist dist
