@@ -51,7 +51,7 @@ let config = {
     module: {
         rules: [
             {test: /\.css$/, use: [{loader: 'style-loader'}, {loader: 'css-loader'}]},
-            {test: /\.(ts|tsx)$/, use: [{loader: 'babel-loader'}], exclude: /node_modules/},
+            {test: /\.(ts|tsx)$/, use: [{loader: 'babel-loader'}, {loader: 'eslint-loader'}], exclude: /node_modules/},
             {test: /\.(png|svg|jpg|git|ttf|woff|woff2|eot)$/, use: [{loader: 'file-loader'}]},
         ]
     },
