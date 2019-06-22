@@ -171,8 +171,8 @@ const originalEvaluationFunction: EvaluationFunction = (tell, emote, selections)
 
 const gradingMap: GradingMap = {
     dept3: {
-        selections: [['-3', -3], ['-1', -1], ['0', 0], ['1', 1], ['3', 3]],
-        evaluationFunction: (tell, emote, selections) => {
+        selections: [['-3', -3], ['-2', -2], ['-1', -1], ['0', 0], ['1', 1], ['2', 2], ['3', 3]],
+        evaluationFunction: (tell, emote) => {
             const x = Array.from(tell.values()).reduce((previous, current) => previous + current);
             const y = Array.from(emote.values()).reduce((previous, current) => previous + current);
             const result = new DeptGraphEntity('You', x, y).toSocialStyleEntity();
