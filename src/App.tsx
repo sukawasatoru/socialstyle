@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {CSSProperties, default as React, useCallback, useState} from 'react';
+import {CSSProperties, default as React, FunctionComponent, useCallback, useState} from 'react';
 import {Container, Nav, Navbar} from 'react-bootstrap';
 import CheckSheet from './CheckSheet';
 import DeptSocialStyles from './DeptSocialStyles';
@@ -31,7 +31,7 @@ const brandStyle: CSSProperties = {
     msUserSelect: 'none',
 };
 
-const App = () => {
+const App: FunctionComponent<unknown> = () => {
     const [currentPage, setCurrentPage] = useState<PageType>('checkSheet');
     const cbSetCurrentPage = useCallback(eventKey => setCurrentPage(eventKey), [setCurrentPage]);
 

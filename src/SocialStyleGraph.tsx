@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import {default as React, useEffect, useMemo, useState} from 'react';
+import loadable from '@loadable/component';
+import {default as React, useMemo} from 'react';
 import plotComponentFactory from 'react-plotly.js/factory';
 import {Spinner} from "react-bootstrap";
 
@@ -30,7 +31,7 @@ const createPoint = (name: string, x: number, y: number): import('plotly.js').Da
     };
 };
 
-export interface SocialStyleEntity {
+interface SocialStyleEntity {
     name: string;
     x: number;
     y: number;
@@ -103,41 +104,25 @@ const socialStyleLayout: GraphLayout = {
 interface Props {
     data: SocialStyleEntity[];
     layout?: GraphLayout;
-    onReady?: () => any;
 }
 
 const SocialStyleGraph = (props: Props) => {
-    const [graph, setGraph] = useState();
     const layout = useMemo(() => Object.assign({}, socialStyleLayout, props.layout), [props.layout]);
-    useEffect(() => {
-        const load = async (): Promise<void> => {
-            const Plot = plotComponentFactory(await import('plotly.js'));
-            setGraph(<Plot
-                className='border border-primary'
-                data={props.data.map(data => createPoint(data.name, data.x, data.y))}
-                layout={layout}
-            />);
-            if (props.onReady) {
-                props.onReady();
-            }
-        };
-
-        // noinspection JSIgnoredPromiseFromCall
-        load();
-    }, [layout, props, setGraph]);
-
-    return <>
-        {!graph &&
-        <div
+    const fallbackComponent = useMemo(() => {
+        return <div
             className='border border-primary d-flex align-items-center'
             style={{width: layout.width, height: layout.height}}>
             <Spinner className='mx-auto d-block' animation='border' variant='primary' style={{top: '50%'}}/>
-        </div>
-        }
-        {graph && graph}
-    </>;
+        </div>;
+    }, [layout]);
+    const Plot = loadable(async () => plotComponentFactory(await import('plotly.js')), {fallback: fallbackComponent});
+
+    return <Plot
+        className='border border-primary'
+        data={props.data.map(data => createPoint(data.name, data.x, data.y))}
+        layout={layout}
+    />;
 };
 
-export {GraphLayout};
+export {GraphLayout, SocialStyleEntity};
 export default SocialStyleGraph;
-
