@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import {FunctionComponent} from 'react';
-import {PlotParams} from "react-plotly.js";
-import * as Plotly from 'plotly.js';
+import Plot from "react-plotly.js";
+import {default as Plotly} from 'plotly.js';
 
-export declare function plotComponentFactory(plotly: typeof Plotly): FunctionComponent<PlotParams>;
+declare function plotComponentFactory(plotly: typeof Plotly): typeof Plot;

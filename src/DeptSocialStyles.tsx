@@ -15,9 +15,9 @@
  */
 
 import {ChangeEvent, default as React, FunctionComponent, useCallback, useEffect, useMemo, useState} from 'react';
-import {InputGroup, Row, Spinner} from "react-bootstrap";
+import {InputGroup, Row} from "react-bootstrap";
 import {createBookByFile} from "./JsonBook";
-import SocialStyleGraph, {SocialStyleEntity} from "./SocialStyleGraph";
+import SocialStyleGraph, {GraphLayout, SocialStyleEntity} from "./SocialStyleGraph";
 import ZoomInOutButton from "./ZoomInOutButton";
 
 const supportFileTypes = [
@@ -76,11 +76,7 @@ class DeptGraphEntity {
     }
 }
 
-export interface Props {
-    plotly?: typeof import('plotly.js');
-}
-
-const DeptSocialStyles: FunctionComponent<Props> = (props) => {
+const DeptSocialStyles: FunctionComponent<unknown> = () => {
     const defaultGraphSize = 480 <= window.innerWidth ? 480 : 320;
     const [graphSize, setGraphSize] = useState(defaultGraphSize);
     const [inputFile, setInputFile] = useState<File>();
@@ -99,7 +95,7 @@ const DeptSocialStyles: FunctionComponent<Props> = (props) => {
     }, [setInputFile]);
 
     const cbSizeChanged = useCallback((size: number) => setGraphSize(size), [setGraphSize]);
-    const graphLayout: Partial<import('plotly.js').Layout> = useMemo(() => ({
+    const graphLayout = useMemo<GraphLayout>(() => ({
         width: graphSize,
         height: graphSize,
     }), [graphSize]);
@@ -147,19 +143,12 @@ const DeptSocialStyles: FunctionComponent<Props> = (props) => {
                 </label>
             </div>
         </InputGroup>
-        {props.plotly === undefined &&
-        <div className='mx-auto' style={{width: 'max-content'}}>
-            <Spinner animation='border' variant='primary'/>
-        </div>
-        }
-        {props.plotly && <>
-            <Row noGutters className='mb-1'>
-                <ZoomInOutButton defaultSize={defaultGraphSize} onSizeChanged={cbSizeChanged}/>
-            </Row>
-            <SocialStyleGraph data={graphSource} plotly={props.plotly} layout={graphLayout}/>
-        </>
-        }
+        <Row noGutters className='mb-1'>
+            <ZoomInOutButton defaultSize={defaultGraphSize} onSizeChanged={cbSizeChanged}/>
+        </Row>
+        <SocialStyleGraph data={graphSource} layout={graphLayout}/>
     </>;
 };
 
+export {DeptGraphEntity};
 export default DeptSocialStyles;

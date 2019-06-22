@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {CSSProperties, default as React, useCallback, useEffect, useState} from 'react';
+import {CSSProperties, default as React, useCallback, useState} from 'react';
 import {Container, Nav, Navbar} from 'react-bootstrap';
 import CheckSheet from './CheckSheet';
 import DeptSocialStyles from './DeptSocialStyles';
@@ -33,13 +33,7 @@ const brandStyle: CSSProperties = {
 
 const App = () => {
     const [currentPage, setCurrentPage] = useState<PageType>('checkSheet');
-    const [plotly, setPlotly] = useState<typeof import('plotly.js') | undefined>();
     const cbSetCurrentPage = useCallback(eventKey => setCurrentPage(eventKey), [setCurrentPage]);
-    useEffect(() => {
-        const load = async (): Promise<void> => setPlotly(await import('plotly.js'));
-        // noinspection JSIgnoredPromiseFromCall
-        load();
-    }, [setPlotly]);
 
     return <>
         <Navbar bg='primary' variant='dark' onSelect={cbSetCurrentPage}>
@@ -50,13 +44,13 @@ const App = () => {
             </Nav>
         </Navbar>
         {currentPage === 'checkSheet' &&
-        <Container className='my-4' style={{maxWidth: '48em'}}>
-            <CheckSheet plotly={plotly} defaultQuestionLevel={5}/>
+        <Container className='my-4' style={{maxWidth: '50em'}}>
+            <CheckSheet/>
         </Container>
         }
         {currentPage === 'user' &&
         <Container className='my-4' style={{maxWidth: '48em'}}>
-            <DeptSocialStyles plotly={plotly}/>
+            <DeptSocialStyles/>
         </Container>
         }
     </>;

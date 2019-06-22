@@ -19,15 +19,17 @@ import {Col, Table, ToggleButton, ToggleButtonGroup} from 'react-bootstrap';
 
 interface Props {
     entities: Entity[];
-    levelNum?: number;
+    selections: QSelection[];
     input?: (data: Map<string, number>) => void;
 }
 
-export type Entity = {
+type Entity = {
     name: string;
     lhDescription: string;
     rhDescription: string;
 }
+
+type QSelection = [string, number];
 
 const doNothing = (): void => {
     // do nothing.
@@ -35,7 +37,6 @@ const doNothing = (): void => {
 
 const SocialStyleGraphInput = (props: Props) => {
     const input = useMemo(() => props.input ? props.input : doNothing, [props.input]);
-    const levelNum = useMemo(() => props.levelNum ? props.levelNum : 4, [props.levelNum]);
     const [result] = useState(new Map());
 
     // for clear widget state.
@@ -45,16 +46,16 @@ const SocialStyleGraphInput = (props: Props) => {
         result.clear();
         setEntityHeader(new Date().getMilliseconds());
         input(new Map(result));
-    }, [props.entities, result, levelNum, input]);
+    }, [props.entities, props.selections, result, input]);
 
     return <Table striped bordered className='table-sm table-hover'>
         <tbody>
         {props.entities.map(data =>
             <tr key={`${entityHeader}-${data.name}`}>
-                <td className='pl-4 align-middle'>
+                <td className='pl-3 align-middle'>
                     {data.lhDescription}
                 </td>
-                <td style={{width: '30%'}}>
+                <td style={{width: '50%'}}>
                     <Col style={{padding: 0}}>
                         <ToggleButtonGroup
                             type='radio'
@@ -64,15 +65,15 @@ const SocialStyleGraphInput = (props: Props) => {
                                 result.set(data.name, value);
                                 input(new Map(result));
                             }}>
-                            {[...Array(levelNum).keys()].map(num =>
-                                <ToggleButton key={`${name}-${num}`} variant='outline-primary' value={num}>
-                                    {num + 1}
+                            {props.selections.map(([label, value]) =>
+                                <ToggleButton key={`${name}-${value}`} variant='outline-primary' value={value}>
+                                    {label}
                                 </ToggleButton>
                             )}
                         </ToggleButtonGroup>
                     </Col>
                 </td>
-                <td className='pl-4 align-middle'>
+                <td className='pl-3 align-middle'>
                     {data.rhDescription}
                 </td>
             </tr>
@@ -81,4 +82,5 @@ const SocialStyleGraphInput = (props: Props) => {
     </Table>;
 };
 
+export {Entity, QSelection};
 export default SocialStyleGraphInput;

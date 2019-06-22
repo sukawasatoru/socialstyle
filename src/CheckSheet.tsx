@@ -15,10 +15,11 @@
  */
 
 import {default as React, FunctionComponent, useCallback, useMemo, useState} from 'react';
-import {Button, Modal, Row, Spinner} from "react-bootstrap";
-import SocialStyleGraphInput, {Entity} from "./SocialStyleGraphInput";
-import SocialStyleGraph from "./SocialStyleGraph";
-import CheckSheetPreferences from "./CheckSheetPreferences";
+import {Button, Modal, Row} from "react-bootstrap";
+import SocialStyleGraphInput, {Entity, QSelection} from "./SocialStyleGraphInput";
+import SocialStyleGraph, {GraphLayout} from "./SocialStyleGraph";
+import CheckSheetPreferences, {Grading} from "./CheckSheetPreferences";
+import {DeptGraphEntity} from "./DeptSocialStyles";
 
 const questions: Entity[] = [
     {
@@ -136,21 +137,74 @@ const questions2: Entity[] = [
     },
 ];
 
-interface Props {
-    plotly?: typeof import('plotly.js');
-    defaultQuestionLevel?: number;
+type GradingMap = { [key in Grading]: GradingMapValue };
+type EvaluationFunction =
+    (tell: Map<string, number>, emote: Map<string, number>, selections: QSelection[]) => [number, number];
+
+interface GradingMapValue {
+    selections: QSelection[];
+    evaluationFunction: EvaluationFunction;
 }
 
-const CheckSheet: FunctionComponent<Props> = (props) => {
+const createOriginalSelections = (num: number): QSelection[] => {
+    const ret: QSelection[] = [];
+    for (let index = 0; index < num; index++) {
+        ret.push([`${index + 1}`, index]);
+    }
+    return ret;
+};
+
+const originalEvaluationFunction: EvaluationFunction = (tell, emote, selections) => {
+    const questionLevel = selections.length;
+    const xRatio = 100 / questions.length / (questionLevel - 1);
+    let x = 0;
+    for (let value of tell.values()) {
+        x += value * xRatio;
+    }
+    const yRatio = 100 / questions2.length / (questionLevel - 1);
+    let y = 0;
+    for (let value of emote.values()) {
+        y += value * yRatio;
+    }
+    return [x, y];
+};
+
+const gradingMap: GradingMap = {
+    dept3: {
+        selections: [['-3', -3], ['-1', -1], ['0', 0], ['1', 1], ['3', 3]],
+        evaluationFunction: (tell, emote, selections) => {
+            const x = Array.from(tell.values()).reduce((previous, current) => previous + current);
+            const y = Array.from(emote.values()).reduce((previous, current) => previous + current);
+            const result = new DeptGraphEntity('You', x, y).toSocialStyleEntity();
+            return [result.x, result.y];
+        },
+    },
+    original2: {
+        selections: createOriginalSelections(2),
+        evaluationFunction: originalEvaluationFunction,
+    },
+    original5: {
+        selections: createOriginalSelections(5),
+        evaluationFunction: originalEvaluationFunction,
+    },
+    original7: {
+        selections: createOriginalSelections(7),
+        evaluationFunction: originalEvaluationFunction,
+    },
+    original10: {
+        selections: createOriginalSelections(10),
+        evaluationFunction: originalEvaluationFunction,
+    },
+};
+
+const CheckSheet: FunctionComponent<unknown> = () => {
     const graphSize = 480 <= window.innerWidth ? 480 : 320;
-    const graphLayout: Partial<import('plotly.js').Layout> = {
+    const graphLayout: GraphLayout = {
         width: graphSize,
         height: graphSize,
     };
-    const [questionLevel, setQuestionLevel] = useState(props.defaultQuestionLevel ? props.defaultQuestionLevel : 4);
-    const cbQuestionLevel = useCallback((level: number) => {
-        setQuestionLevel(level);
-    }, [setQuestionLevel]);
+    const [grading, setGrading] = useState<Grading>('original5');
+    const cbGrading = useCallback((value: Grading) => setGrading(value), [setGrading]);
     const [tell, setTell] = useState(new Map<string, number>());
     const [emote, setEmote] = useState(new Map<string, number>());
     const result = useMemo(() => {
@@ -158,34 +212,21 @@ const CheckSheet: FunctionComponent<Props> = (props) => {
             return [];
         }
 
-        const xRatio = 100 / questions.length / (questionLevel - 1);
-        let x = 0;
-        for (let value of tell.values()) {
-            x += value * xRatio;
-        }
-        const yRatio = 100 / questions2.length / (questionLevel - 1);
-        let y = 0;
-        for (let value of emote.values()) {
-            y += value * yRatio;
-        }
+        const targetOptions = gradingMap[grading];
+        const [x, y] = targetOptions.evaluationFunction(tell, emote, targetOptions.selections);
         return [{name: 'You', x, y}];
-    }, [tell, emote, questionLevel]);
+    }, [tell, emote, grading]);
     const [showModal, setShowModal] = useState(false);
     const cbShowModal = useCallback(() => setShowModal(true), [setShowModal]);
     const hideModal = useCallback(() => setShowModal(false), [setShowModal]);
 
     return <>
-        <CheckSheetPreferences defaultQuestionLevel={questionLevel} onQuestionLevelChanged={cbQuestionLevel}/>
+        <CheckSheetPreferences defaultGrading={grading} onGradingChanged={cbGrading}/>
         <div className='mt-4'/>
-        <SocialStyleGraphInput entities={questions} input={setTell} levelNum={questionLevel}/>
-        <SocialStyleGraphInput entities={questions2} input={setEmote} levelNum={questionLevel}/>
+        <SocialStyleGraphInput entities={questions} input={setTell} selections={gradingMap[grading].selections}/>
+        <SocialStyleGraphInput entities={questions2} input={setEmote} selections={gradingMap[grading].selections}/>
         <Row noGutters>
-            <Button
-                className='ml-auto'
-                variant='primary'
-                disabled={result.length === 0}
-                onClick={cbShowModal}
-            >
+            <Button className='ml-auto' variant='primary' disabled={result.length === 0} onClick={cbShowModal}>
                 診断
             </Button>
         </Row>
@@ -197,8 +238,7 @@ const CheckSheet: FunctionComponent<Props> = (props) => {
             </Modal.Header>
             <Modal.Body className='px-0'>
                 <div className='mx-auto' style={{width: 'max-content'}}>
-                    {props.plotly === undefined && <Spinner animation='border' variant='primary'/>}
-                    {props.plotly && <SocialStyleGraph data={result} plotly={props.plotly} layout={graphLayout}/>}
+                    <SocialStyleGraph data={result} layout={graphLayout}/>
                 </div>
             </Modal.Body>
         </Modal>

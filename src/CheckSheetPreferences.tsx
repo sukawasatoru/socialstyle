@@ -14,39 +14,72 @@
  * limitations under the License.
  */
 
-import {default as React, FormEvent, FunctionComponent, useCallback, useState} from 'react';
-import {Form} from "react-bootstrap";
+import {default as React, FunctionComponent, useCallback} from 'react';
+import {ToggleButton, ToggleButtonGroup} from "react-bootstrap";
 
 interface Props {
-    defaultQuestionLevel: number;
-    onQuestionLevelChanged?: (level: number) => any;
+    defaultGrading: Grading;
+    onGradingChanged?: (grading: Grading) => any;
 }
 
-const CheckSheetPreferences: FunctionComponent<Props> = (props) => {
-    const [questionLevel, setQuestionLevel] = useState(props.defaultQuestionLevel.toString());
-    const supportQuestionLevel = [2, 3, 4, 5];
-    const cbQuestionLevel = useCallback((event: FormEvent<HTMLFormElement>) => {
-        if (props.onQuestionLevelChanged) {
-            const value = event.currentTarget.value;
-            setQuestionLevel(value);
-            props.onQuestionLevelChanged(parseInt(value));
-        }
-    }, [props, setQuestionLevel]);
+interface GradingButtonPayload {
+    label: string;
+    description: string;
+}
 
-    return <Form>
-        <Form.Group>
-            <Form.Label>
-                Level
-            </Form.Label>
-            <Form.Control as='select' value={questionLevel} onChange={cbQuestionLevel}>
-                {supportQuestionLevel.map(level =>
-                    <option key={level} value={level}>
-                        {level}
-                    </option>
-                )}
-            </Form.Control>
-        </Form.Group>
-    </Form>;
+type GradingButtonsType = { [key in Grading]: GradingButtonPayload };
+
+const gradingButtons: GradingButtonsType = {
+    dept3: {
+        label: 'ソーシャルスタイル診断.xlsx',
+        description: '帰社日に使用した選択とバイアスを使用する',
+    },
+    original2: {
+        label: '2択',
+        description: '2択を使用する',
+    },
+    original5: {
+        label: '5択',
+        description: 'オリジナルのバイアスの 5択を使用する',
+    },
+    original7: {
+        label: '7択',
+        description: 'オリジナルのバイアスの 7択を使用する',
+    },
+    original10: {
+        label: '10択',
+        description: 'オリジナルのバイアスの 10択を使用する',
+    },
 };
 
+type Grading = 'dept3' | 'original2' | 'original5' | 'original7' | 'original10';
+
+const CheckSheetPreferences: FunctionComponent<Props> = (props) => {
+    const cbQuestionSelection = useCallback((grading: Grading) => {
+        if (props.onGradingChanged) {
+            props.onGradingChanged(grading);
+        }
+    }, [props]);
+
+    return <ToggleButtonGroup
+        name='grading'
+        vertical
+        defaultValue={props.defaultGrading}
+        style={{width: '100%'}}
+        onChange={cbQuestionSelection}
+    >
+        {Object.entries(gradingButtons).map(([key, value]) =>
+            <ToggleButton key={key} className='text-left btn-block' variant='outline-primary' value={key}>
+                <div>
+                    {value.label}:
+                </div>
+                <div>
+                    {value.description}
+                </div>
+            </ToggleButton>
+        )}
+    </ToggleButtonGroup>;
+};
+
+export {Grading};
 export default CheckSheetPreferences;

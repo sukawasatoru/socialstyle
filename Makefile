@@ -39,7 +39,7 @@ ifeq ($(CI)$(FORCE_DEPLOY),)
 	exit 1
 endif
 	$(GIT) add -NA
-	$(GIT) diff --exit-code
+	$(GIT) diff --staged --exit-code
 	$(MAKE) clean
 	$(MAKE) release
 	$(NPX) gh-pages --dist dist

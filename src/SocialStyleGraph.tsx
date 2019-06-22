@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-import {default as React, useMemo} from 'react';
+import {default as React, useEffect, useMemo, useState} from 'react';
 import plotComponentFactory from 'react-plotly.js/factory';
+import {Spinner} from "react-bootstrap";
 
 const createPoint = (name: string, x: number, y: number): import('plotly.js').Data => {
     return {
@@ -35,7 +36,9 @@ export interface SocialStyleEntity {
     y: number;
 }
 
-const socialStyleLayout: Partial<import('plotly.js').Layout> = {
+type GraphLayout = Partial<import('plotly.js').Layout>;
+
+const socialStyleLayout: GraphLayout = {
     showlegend: false,
     hovermode: 'closest',
     margin: {t: 0, b: 0, l: 0, r: 0},
@@ -99,20 +102,42 @@ const socialStyleLayout: Partial<import('plotly.js').Layout> = {
 
 interface Props {
     data: SocialStyleEntity[];
-    layout?: Partial<import('plotly.js').Layout>;
-    plotly: typeof import('plotly.js');
+    layout?: GraphLayout;
+    onReady?: () => any;
 }
 
 const SocialStyleGraph = (props: Props) => {
-    const Plot = plotComponentFactory(props.plotly);
-    const plotlyLayout = useMemo(() => Object.assign({}, socialStyleLayout, props.layout), [props.layout]);
+    const [graph, setGraph] = useState();
+    const layout = useMemo(() => Object.assign({}, socialStyleLayout, props.layout), [props.layout]);
+    useEffect(() => {
+        const load = async (): Promise<void> => {
+            const Plot = plotComponentFactory(await import('plotly.js'));
+            setGraph(<Plot
+                className='border border-primary'
+                data={props.data.map(data => createPoint(data.name, data.x, data.y))}
+                layout={layout}
+            />);
+            if (props.onReady) {
+                props.onReady();
+            }
+        };
 
-    return <Plot
-        className='border border-primary'
-        data={props.data.map(data => createPoint(data.name, data.x, data.y))}
-        layout={plotlyLayout}
-    />;
+        // noinspection JSIgnoredPromiseFromCall
+        load();
+    }, [layout, props, setGraph]);
+
+    return <>
+        {!graph &&
+        <div
+            className='border border-primary d-flex align-items-center'
+            style={{width: layout.width, height: layout.height}}>
+            <Spinner className='mx-auto d-block' animation='border' variant='primary' style={{top: '50%'}}/>
+        </div>
+        }
+        {graph && graph}
+    </>;
 };
 
+export {GraphLayout};
 export default SocialStyleGraph;
 
