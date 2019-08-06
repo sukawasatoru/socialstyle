@@ -2,6 +2,13 @@
   "name": "socialstyle",
   "version": "0.1.0",
   "description": "",
+  "author": {
+    "name": "Satoru Sukawa",
+    "email": "sukawasatoru.github@outlook.jp",
+    "url": "https://github.com/sukawasatoru"
+  },
+  "license": "Apache-2.0",
+  "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "bundle-analyzer": "BUNDLE_ANALYZER=1 npm run build",
@@ -9,17 +16,10 @@
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": {
-    "name": "Satoru Sukawa",
-    "email": "sukawasatoru.github@outlook.jp",
-    "url": "https://github.com/sukawasatoru/socialstyles"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/sukawasatoru/socialstyles.git"
   },
-  "license": "Apache-2.0",
-  "private": true,
   "dependencies": {
     "@babel/core": "7.4.5",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",

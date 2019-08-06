@@ -1,6 +1,6 @@
 SHELL = /bin/sh
 .SUFFIXES:
-.PHONY: all release debug clean distclean test deploy setup
+.PHONY: all release debug clean distclean check test deploy setup
 GIT = git
 NPM = npm
 NPX = npx
@@ -30,8 +30,11 @@ clean:
 distclean: clean
 	-$(RMRF) node_modules
 
-test:
-	$(NPM) test
+check: test
+
+test: setup
+# 	TODO
+	-$(NPM) test
 
 deploy:
 ifeq ($(CI)$(FORCE_DEPLOY),)
@@ -47,5 +50,13 @@ endif
 setup: node_modules/setup-dummy
 
 node_modules/setup-dummy: package.json
+ifeq (npm,$(NPM))
+ifneq ($(CI),)
+	$(NPM) ci
+else
 	$(NPM) install
+endif
+else
+	$(NPM) install
+endif
 	$(call touch,node_modules/setup-dummy)
