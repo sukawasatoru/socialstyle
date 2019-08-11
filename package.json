@@ -60,7 +60,7 @@
     "html-webpack-plugin": "3.2.0",
     "jquery": "3.4.1",
     "material-design-icons": "3.0.1",
-    "plotly.js": "1.48.3",
+    "plotly.js": "1.49.1",
     "popper.js": "1.15.0",
     "react": "16.8.6",
     "react-bootstrap": "1.0.0-beta.10",
