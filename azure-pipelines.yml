@@ -63,8 +63,5 @@ jobs:
             - script: |
                 git config user.name "Azure Pipelines"
                 git config user.email sukawasatoru.github@outlook.jp
-                echo "#!/bin/bash" > $PIPELINE_WORKSPACE/credential-helper.sh
-                echo "username=sukawasatoru" >> $PIPELINE_WORKSPACE/credential-helper.sh
-                echo "password=$SYSTEM_ACCESSTOKEN" >> $PIPELINE_WORKSPACE/credential-helper.sh
-                git config credential.helper "/bin/bash $PIPELINE_WORKSPACE/credential-helper.sh"
+                git config core.askPass "$SYSTEM_ACCESSTOKEN"
                 make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)" deploy
