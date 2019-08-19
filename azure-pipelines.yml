@@ -61,7 +61,7 @@ jobs:
               inputs:
                 versionSpec: '12.x'
             - script: |
-                git config user.name "Azure Pipelines"
-                git config user.email sukawasatoru.github@outlook.jp
+                git config user.name sukawasatoru
+                git config user.email "Azure Pipelines<sukawasatoru.github@outlook.jp>"
                 git config core.askPass "$SYSTEM_ACCESSTOKEN"
                 make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)" deploy
