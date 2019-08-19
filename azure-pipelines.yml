@@ -49,7 +49,7 @@ jobs:
     pool:
       vmImage: 'macOS-latest'
     variables:
-      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+      SYSTEM_ACCESSTOKEN: $(GIT_PASSWORD)
     environment: 'socialstyles'
     strategy:
       runOnce:
