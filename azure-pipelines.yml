@@ -45,3 +45,25 @@ jobs:
         displayName: Build
       - script: make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)" check
         displayName: Check
+  - deployment:
+    pool:
+      vmImage: 'macOS-latest'
+    variables:
+      - SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+              fetchDepth: 1
+            - task: NodeTool@0
+              inputs:
+                versionSpec: '12.x'
+            - script: |
+                git config user.name "Azure Pipelines"
+                git config user.email sukawasatoru.github@outlook.jp
+                echo "#!/bin/bash" > $PIPELINE_WORKSPACE/credential-helper.sh
+                echo "username=sukawasatoru" >> $PIPELINE_WORKSPACE/credential-helper.sh
+                echo "password=$SYSTEM_ACCESSTOKEN" >> $PIPELINE_WORKSPACE/credential-helper.sh
+                git config credential.helper "/bin/bash $PIPELINE_WORKSPACE/credential-helper.sh"
+                make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)" deploy
