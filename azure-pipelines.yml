@@ -50,6 +50,7 @@ jobs:
       vmImage: 'macOS-latest'
     variables:
       SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+    environment: 'socialstyles'
     strategy:
       runOnce:
         deploy:
