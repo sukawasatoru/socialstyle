@@ -39,7 +39,7 @@
     "@types/html-webpack-plugin": "3.2.1",
     "@types/plotly.js": "1.44.10",
     "@types/loadable__component": "5.10.0",
-    "@types/node": "12.6.9",
+    "@types/node": "12.7.2",
     "@types/react": "16.8.25",
     "@types/react-dom": "16.8.5",
     "@types/react-plotly.js": "2.2.3",
