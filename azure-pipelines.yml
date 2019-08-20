@@ -65,4 +65,4 @@ jobs:
                 git config user.email "Azure Pipelines<sukawasatoru.github@outlook.jp>"
                 git config core.askPass "$SYSTEM_ACCESSTOKEN"
                 git config --system --unset credential.helper
-                make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)" deploy
+                GIT_TERMINAL_PROMPT=0 make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)" deploy
