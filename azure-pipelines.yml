@@ -61,8 +61,5 @@ jobs:
               inputs:
                 versionSpec: '12.x'
             - script: |
-                git config user.name sukawasatoru
-                git config user.email "Azure Pipelines<sukawasatoru.github@outlook.jp>"
-                git config core.askPass "$SYSTEM_ACCESSTOKEN"
-                git config --system --unset credential.helper
+                git remote set-url origin https://$SYSTEM_ACCESSTOKEN@github.com/sukawasatoru/socialstyles.git
                 GIT_TERMINAL_PROMPT=0 make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)" deploy
