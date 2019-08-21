@@ -60,4 +60,5 @@ jobs:
                 versionSpec: '12.x'
             - script: |
                 git remote set-url origin https://$GIT_PASSWORD@github.com/sukawasatoru/socialstyles.git
+                git remote -v
                 GIT_TERMINAL_PROMPT=0 make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)" deploy
