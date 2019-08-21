@@ -48,6 +48,8 @@ jobs:
   - deployment:
     pool:
       vmImage: 'macOS-latest'
+    variables:
+      GIT_PASSWORD: $(GIT_PASSWORD)
     environment: 'socialstyles'
     strategy:
       runOnce:
