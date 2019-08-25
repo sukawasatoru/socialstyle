@@ -2,63 +2,66 @@ variables:
   CI: true
 trigger:
   - master
-jobs:
-  - job:
-    displayName: Linux
-    pool:
-      vmImage: 'ubuntu-16.04'
-    steps:
-      - checkout: self
-        fetchDepth: 1
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '12.x'
-      - script: make -j"$(cat /proc/cpuinfo | grep -e '^processor' | wc -l)"
-        displayName: Build
-      - script: make -j"$(cat /proc/cpuinfo | grep -e '^processor' | wc -l)" check
-        displayName: Check
-  - job:
-    displayName: Windows
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-      - checkout: self
-        fetchDepth: 1
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '12.x'
-      - script: make
-        displayName: Build
-      - script: make check
-        displayName: Check
-  - job:
-    displayName: macOS
-    pool:
-      vmImage: 'macOS-latest'
-    steps:
-      - checkout: self
-        fetchDepth: 1
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '12.x'
-      - script: make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)"
-        displayName: Build
-      - script: make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)" check
-        displayName: Check
-  - deployment:
-    pool:
-      vmImage: 'macOS-latest'
-    environment: 'socialstyles'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-            - checkout: self
-              fetchDepth: 1
-            - task: NodeTool@0
-              inputs:
-                versionSpec: '12.x'
-            - script: |
-                git remote set-url origin https://$(GIT_PASSWORD)@github.com/sukawasatoru/socialstyles.git
-                git remote -v
-                GIT_TERMINAL_PROMPT=0 make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)" deploy
+stages:
+  - stage:
+    jobs:
+      - job:
+        displayName: Linux
+        pool:
+          vmImage: 'ubuntu-16.04'
+        steps:
+          - checkout: self
+            fetchDepth: 1
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '12.x'
+          - script: make -j"$(cat /proc/cpuinfo | grep -e '^processor' | wc -l)"
+            displayName: Build
+          - script: make -j"$(cat /proc/cpuinfo | grep -e '^processor' | wc -l)" check
+            displayName: Check
+      - job:
+        displayName: Windows
+        pool:
+          vmImage: 'windows-latest'
+        steps:
+          - checkout: self
+            fetchDepth: 1
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '12.x'
+          - script: make
+            displayName: Build
+          - script: make check
+            displayName: Check
+      - job:
+        displayName: macOS
+        pool:
+          vmImage: 'macOS-latest'
+        steps:
+          - checkout: self
+            fetchDepth: 1
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '12.x'
+          - script: make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)"
+            displayName: Build
+          - script: make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)" check
+            displayName: Check
+  - stage:
+    jobs:
+      - deployment:
+        pool:
+          vmImage: 'macOS-latest'
+        environment: 'socialstyles'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                  fetchDepth: 1
+                - task: NodeTool@0
+                  inputs:
+                    versionSpec: '12.x'
+                - script: |
+                    git remote set-url origin https://$(GIT_PASSWORD)@github.com/sukawasatoru/socialstyles.git
+                    GIT_TERMINAL_PROMPT=0 make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)" deploy
