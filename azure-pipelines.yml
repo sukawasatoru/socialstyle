@@ -48,6 +48,7 @@ stages:
           - script: make -j"$(sysctl hw.logicalcpu | cut -d' ' -f2)" check
             displayName: Check
   - stage:
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     jobs:
       - deployment:
         pool:
