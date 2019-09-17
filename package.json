@@ -68,7 +68,7 @@
     "react-plotly.js": "2.3.0",
     "style-loader": "1.0.0",
     "typescript": "3.6.2",
-    "webpack": "4.39.3",
+    "webpack": "4.40.2",
     "webpack-bundle-analyzer": "3.4.1",
     "webpack-cli": "3.3.8",
     "webpack-dev-server": "3.8.0",
