@@ -51,7 +51,6 @@ jobs:
         with:
           name: artifact-ghpages
       - name: Publish
-        working-directory: artifact-ghpages
         run: |
           git init
           git add .
