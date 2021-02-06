@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 sukawasatoru
+ * Copyright 2019, 2021 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-import {CSSProperties, default as React, FunctionComponent, useCallback, useState} from 'react';
+import CheckSheet from '@/components/CheckSheet';
+import DeptSocialStyles from '@/components/DeptSocialStyles';
+import {NextPage} from "next";
+import {CSSProperties, default as React, useCallback, useState} from 'react';
 import {Container, Nav, Navbar} from 'react-bootstrap';
-import CheckSheet from './CheckSheet';
-import DeptSocialStyles from './DeptSocialStyles';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'material-design-icons/iconfont/material-icons.css';
-import './app.css';
 
 type PageType = 'checkSheet' | 'user';
 
@@ -31,7 +29,7 @@ const brandStyle: CSSProperties = {
     msUserSelect: 'none',
 };
 
-const App: FunctionComponent<unknown> = () => {
+const Index: NextPage<unknown> = () => {
     const [currentPage, setCurrentPage] = useState<PageType>('checkSheet');
     const cbSetCurrentPage = useCallback(eventKey => setCurrentPage(eventKey), [setCurrentPage]);
 
@@ -56,4 +54,4 @@ const App: FunctionComponent<unknown> = () => {
     </>;
 };
 
-export default App;
+export default Index;

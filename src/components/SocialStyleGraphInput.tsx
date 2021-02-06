@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 sukawasatoru
+ * Copyright 2019, 2021 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +23,13 @@ interface Props {
     input?: (data: Map<string, number>) => void;
 }
 
-type Entity = {
+export type Entity = {
     name: string;
     lhDescription: string;
     rhDescription: string;
 }
 
-type QSelection = [string, number];
+export type QSelection = [string, number];
 
 const doNothing = (): void => {
     // do nothing.
@@ -66,7 +66,7 @@ const SocialStyleGraphInput = (props: Props) => {
                                 input(new Map(result));
                             }}>
                             {props.selections.map(([label, value]) =>
-                                <ToggleButton key={`${name}-${value}`} variant='outline-primary' value={value}>
+                                <ToggleButton key={`${data.name}-${value}`} variant='outline-primary' value={value}>
                                     {label}
                                 </ToggleButton>
                             )}
@@ -82,5 +82,4 @@ const SocialStyleGraphInput = (props: Props) => {
     </Table>;
 };
 
-export {Entity, QSelection};
 export default SocialStyleGraphInput;

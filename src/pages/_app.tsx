@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 sukawasatoru
+ * Copyright 2021 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,3 +14,13 @@
  * limitations under the License.
  */
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'material-design-icons/iconfont/material-icons.css';
+import {AppProps} from "next/app";
+import {FunctionComponent} from "react";
+
+const App: FunctionComponent<AppProps> = ({Component, pageProps}) => {
+  return <Component {...pageProps} />
+};
+
+export default App;

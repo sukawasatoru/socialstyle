@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 sukawasatoru
+ * Copyright 2019, 2021 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
+import SocialStyleGraph, {GraphLayout, SocialStyleEntity} from "@/components/SocialStyleGraph";
+import {createBookByFile} from "@/function/JsonBook";
+import ZoomInOutButton from "@/components/ZoomInOutButton";
 import {ChangeEvent, default as React, FunctionComponent, useCallback, useEffect, useMemo, useState} from 'react';
 import {InputGroup, Row} from "react-bootstrap";
-import {createBookByFile} from "./JsonBook";
-import SocialStyleGraph, {GraphLayout, SocialStyleEntity} from "./SocialStyleGraph";
-import ZoomInOutButton from "./ZoomInOutButton";
 
 const supportFileTypes = [
     '.xlsx',

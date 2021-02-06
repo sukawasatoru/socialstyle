@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 sukawasatoru
+ * Copyright 2019, 2021 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ const gradingButtons: GradingButtonsType = {
     },
 };
 
-type Grading = 'dept3' | 'original2' | 'original5' | 'original7' | 'original10';
+export type Grading = 'dept3' | 'original2' | 'original5' | 'original7' | 'original10';
 
 const CheckSheetPreferences: FunctionComponent<Props> = (props) => {
     const cbQuestionSelection = useCallback((grading: Grading) => {
@@ -81,5 +81,4 @@ const CheckSheetPreferences: FunctionComponent<Props> = (props) => {
     </ToggleButtonGroup>;
 };
 
-export {Grading};
 export default CheckSheetPreferences;

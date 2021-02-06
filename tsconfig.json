@@ -5,23 +5,37 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "jsx": "react",
+    "jsx": "preserve",
     "sourceMap": true,
+    "rootDirs": [
+      "src",
+      "stories"
+    ],
+    "baseUrl": ".",
+    "newLine": "LF",
+    "noEmit": true,
+    "strict": true,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    // next.js requires the following values:
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-    "rootDirs": [
-      "src",
-      "stories"
-    ],
-    "baseUrl": "src",
-    "newLine": "LF",
-    "noEmit": true,
-    "strict": true
+    "allowJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
   "include": [
     "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

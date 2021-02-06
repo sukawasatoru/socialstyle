@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 sukawasatoru
+ * Copyright 2019, 2021 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 import loadable from '@loadable/component';
 import {default as React, useMemo} from 'react';
-import plotComponentFactory from 'react-plotly.js/factory';
 import {Spinner} from "react-bootstrap";
+import plotComponentFactory from 'react-plotly.js/factory';
 
 const createPoint = (name: string, x: number, y: number): import('plotly.js').Data => {
     return {
@@ -31,13 +31,13 @@ const createPoint = (name: string, x: number, y: number): import('plotly.js').Da
     };
 };
 
-interface SocialStyleEntity {
+export interface SocialStyleEntity {
     name: string;
     x: number;
     y: number;
 }
 
-type GraphLayout = Partial<import('plotly.js').Layout>;
+export type GraphLayout = Partial<import('plotly.js').Layout>;
 
 const socialStyleLayout: GraphLayout = {
     showlegend: false,
@@ -117,12 +117,13 @@ const SocialStyleGraph = (props: Props) => {
     }, [layout]);
     const Plot = loadable(async () => plotComponentFactory(await import('plotly.js')), {fallback: fallbackComponent});
 
-    return <Plot
-        className='border border-primary'
-        data={props.data.map(data => createPoint(data.name, data.x, data.y))}
-        layout={layout}
-    />;
+    // TODO:
+  return <Plot
+    // @ts-ignore
+    className='border border-primary'
+    data={props.data.map(data => createPoint(data.name, data.x, data.y))}
+    layout={layout}
+  />;
 };
 
-export {GraphLayout, SocialStyleEntity};
 export default SocialStyleGraph;

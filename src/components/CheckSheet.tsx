@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 sukawasatoru
+ * Copyright 2019, 2021 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import {default as React, FunctionComponent, useCallback, useMemo, useState} from 'react';
+import CheckSheetPreferences, {Grading} from "@/components/CheckSheetPreferences";
+import {DeptGraphEntity} from "@/components/DeptSocialStyles";
+import SocialStyleGraph, {GraphLayout} from "@/components/SocialStyleGraph";
+import SocialStyleGraphInput, {Entity, QSelection} from "@/components/SocialStyleGraphInput";
+import {default as React, FunctionComponent, useCallback, useEffect, useMemo, useState} from 'react';
 import {Button, Modal, Row} from "react-bootstrap";
-import SocialStyleGraphInput, {Entity, QSelection} from "./SocialStyleGraphInput";
-import SocialStyleGraph, {GraphLayout} from "./SocialStyleGraph";
-import CheckSheetPreferences, {Grading} from "./CheckSheetPreferences";
-import {DeptGraphEntity} from "./DeptSocialStyles";
 
 const questions: Entity[] = [
     {
@@ -198,11 +198,20 @@ const gradingMap: GradingMap = {
 };
 
 const CheckSheet: FunctionComponent<unknown> = () => {
-    const graphSize = 480 <= window.innerWidth ? 480 : 320;
-    const graphLayout: GraphLayout = {
-        width: graphSize,
-        height: graphSize,
-    };
+  const [graphLayout, setGraphLayout] = useState<GraphLayout>({
+    width: 480,
+    height: 480,
+  });
+
+  useEffect(() => {
+    if(window.innerWidth < 480) {
+      setGraphLayout({
+        width: 320,
+        height: 320,
+      });
+    }
+  }, []);
+
     const [grading, setGrading] = useState<Grading>('original5');
     const cbGrading = useCallback((value: Grading) => setGrading(value), [setGrading]);
     const [tell, setTell] = useState(new Map<string, number>());

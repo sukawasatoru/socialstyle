@@ -224,3 +224,7 @@ tags
 # End of https://www.gitignore.io/api/jetbrains,node,sublimetext,vim
 
 /dist
+!/.env
+!/.env.development
+!/.env.production
+!/.env.test
