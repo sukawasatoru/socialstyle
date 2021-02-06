@@ -13,8 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
+        shell: bash -l -eo pipefail {0}
         run: |
-          source $NVM_DIR/nvm.sh
           nvm install $(cat .nvmrc)
           nvm use
           npm ci
@@ -29,10 +29,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
+        shell: bash -l -eo pipefail {0}
         env:
           PATH_CONTEXT: /socialstyles
         run: |
-          source $NVM_DIR/nvm.sh
           nvm install $(cat .nvmrc)
           nvm use
           npm ci
