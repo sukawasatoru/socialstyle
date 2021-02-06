@@ -8,6 +8,7 @@ on:
       - master
 jobs:
   build:
+    if: false
     # https://github.com/actions/virtual-environments#available-environments
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +25,6 @@ jobs:
           name: artifact
           path: out
   build-for-ghpages:
-    if: github.event_name == 'push' && github.event.ref == 'refs/heads/master' && github.repository == 'sukawasatoru/socialstyles'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -51,9 +51,4 @@ jobs:
         with:
           name: artifact-ghpages
       - name: Publish
-        working-directory: artifact-ghpages
-        run: |
-          git init
-          git add .
-          git -c user.name='ci' -c user.email='ci' commit -m 'Deploy LIFF Application'
-          git push -f -q https://git:${{ secrets.github_token }}@github.com/${{ github.repository }} HEAD:gh-pages
+        run: ls -la
