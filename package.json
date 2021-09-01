@@ -35,7 +35,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "fork-ts-checker-webpack-plugin": "6.1.0",
     "material-design-icons": "3.0.1",
-    "next": "10.0.6",
+    "next": "11.1.1",
     "plotly.js": "1.58.4",
     "popper.js": "1.16.1",
     "react": "17.0.1",
