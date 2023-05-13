@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 sukawasatoru
+ * Copyright 2019, 2023 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,9 +35,9 @@ const createBookByFile = (file: File): Promise<JsonBook> => {
 
     return new Promise(resolve => {
         // https://github.com/microsoft/TSJS-lib-generator/pull/704
-        reader.onload = async (e: any) => {
+        reader.onload = async (e: ProgressEvent<FileReader>) => {
             const {read} = await import('xlsx');
-            const book = read(e.target.result, {type: isBinary ? 'binary' : 'array'});
+            const book = read(e.target?.result, {type: isBinary ? 'binary' : 'array'});
             resolve(await createBookByWorkBook(book));
         };
         if (isBinary) {
@@ -71,9 +71,9 @@ class JsonSheet {
     headerRowIndex: number;
     payloadStartRowIndex: number;
 
-    private readonly sheet: any[][];
+    private readonly sheet: unknown[][];
 
-    constructor(json: any[][]) {
+    constructor(json: unknown[][]) {
         this.sheet = json;
         this.keyColumnIndex = 0;
         this.headerRowIndex = 0;
@@ -94,23 +94,23 @@ class JsonSheet {
 }
 
 export class JsonSheetRecord {
-    private readonly data: any[];
+    private readonly data: unknown[];
     private readonly keyIndex: number;
 
-    constructor(data: any[], keyIndex: number) {
+    constructor(data: unknown[], keyIndex: number) {
         this.data = data;
         this.keyIndex = keyIndex;
     }
 
-    getKey(): any {
+    getKey(): unknown {
         return this.data[this.keyIndex];
     }
 
-    getValue(index: number): any {
+    getValue(index: number): unknown {
         return this.data[index];
     }
 
-    findIndex(value: any): number {
+    findIndex(value: unknown): number {
         return this.data.indexOf(value);
     }
 }

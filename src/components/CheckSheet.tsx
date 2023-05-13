@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, 2021 sukawasatoru
+ * Copyright 2019, 2021, 2023 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -158,12 +158,12 @@ const originalEvaluationFunction: EvaluationFunction = (tell, emote, selections)
     const questionLevel = selections.length;
     const xRatio = 100 / questions.length / (questionLevel - 1);
     let x = 0;
-    for (let value of tell.values()) {
+    for (const value of tell.values()) {
         x += value * xRatio;
     }
     const yRatio = 100 / questions2.length / (questionLevel - 1);
     let y = 0;
-    for (let value of emote.values()) {
+    for (const value of emote.values()) {
         y += value * yRatio;
     }
     return [x, y];

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, 2021 sukawasatoru
+ * Copyright 2019, 2021, 2023 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,28 +16,25 @@
 
 'use strict';
 
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const config = {
+  experimental: {
+    typedRoutes: true,
+  },
+  output: 'export',
   poweredByHeader: false,
   reactStrictMode: true,
-  // https://github.com/vercel/next.js/blob/5201cdb/packages/next/export/index.ts#L382
   webpack: (config, options) => {
-    config.node.fs = 'empty';
+    config.resolve.fallback || (config.resolve.fallback = {});
+    config.resolve.fallback.fs = false;
     config.resolve.alias['plotly.js'] = 'plotly.js/lib/index-cartesian';
 
     if (options.isServer) {
-      config.plugins.push(
-        new ForkTsCheckerWebpackPlugin({
-          typescript: options.dev,
-          eslint: {
-            files: [
-              'src/**/*.ts',
-              'src/**/*.tsx',
-            ],
-          },
-        }),
-      );
+      options.dev && config.plugins.push(new ForkTsCheckerWebpackPlugin());
 
       if (process.env.BUNDLE_ANALYZER) {
         const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');

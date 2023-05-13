@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, 2021 sukawasatoru
+ * Copyright 2019, 2021, 2023 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ const doNothing = (): void => {
 
 const SocialStyleGraphInput = (props: Props) => {
     const input = useMemo(() => props.input ? props.input : doNothing, [props.input]);
-    const [result] = useState(new Map());
+    const [result] = useState(new Map<string, number>());
 
     // for clear widget state.
     const [entityHeader, setEntityHeader] = useState(new Date().getMilliseconds());

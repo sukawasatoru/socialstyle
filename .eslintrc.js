@@ -1,23 +1,24 @@
 'use strict';
 
 module.exports = {
-    'root': true,
-    'parser': '@typescript-eslint/parser',
-    'parserOptions': {
-        'useJSXTextNode': true,
-        'project': './tsconfig.json',
-        'sourceType': 'module'
-    },
-    'plugins': [
-        '@typescript-eslint',
-        'react-hooks'
-    ],
-    'rules': {
-        '@typescript-eslint/adjacent-overload-signatures': 'warn',
-        '@typescript-eslint/member-delimiter-style': 'warn',
-        '@typescript-eslint/member-ordering': 'warn',
-        '@typescript-eslint/no-for-in-array': 'warn',
-        'react-hooks/rules-of-hooks': 'error',
-        'react-hooks/exhaustive-deps': 'warn',
-    },
+  'root': true,
+  'extends': [
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'next/core-web-vitals',
+  ],
+  'parserOptions': {
+    'project': './tsconfig.json',
+  },
+  'rules': {
+    '@typescript-eslint/member-delimiter-style': 'warn',
+    '@typescript-eslint/member-ordering': 'warn',
+    '@typescript-eslint/no-base-to-string': 'error',
+    '@typescript-eslint/no-confusing-non-null-assertion': 'error',
+    '@typescript-eslint/no-non-null-asserted-nullish-coalescing': 'error',
+    '@typescript-eslint/prefer-includes': 'error',
+    '@typescript-eslint/restrict-template-expressions': ['error', {allowNullish: true}],
+    '@typescript-eslint/triple-slash-reference': 'warn',
+    '@typescript-eslint/unified-signatures': 'error',
+  },
 };

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, 2021 sukawasatoru
+ * Copyright 2019, 2021, 2023 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,106 +20,106 @@ import {Spinner} from "react-bootstrap";
 import plotComponentFactory from 'react-plotly.js/factory';
 
 const createPoint = (name: string, x: number, y: number): import('plotly.js').Data => {
-    return {
-        x: [x],
-        y: [y],
-        text: name,
-        textposition: 'top center',
-        type: 'scatter',
-        mode: 'text+markers',
-        hoverinfo: 'x+y',
-    };
+  return {
+    x: [x],
+    y: [y],
+    text: name,
+    textposition: 'top center',
+    type: 'scatter',
+    mode: 'text+markers',
+    hoverinfo: 'x+y',
+  };
 };
 
 export interface SocialStyleEntity {
-    name: string;
-    x: number;
-    y: number;
+  name: string;
+  x: number;
+  y: number;
 }
 
 export type GraphLayout = Partial<import('plotly.js').Layout>;
 
 const socialStyleLayout: GraphLayout = {
-    showlegend: false,
-    hovermode: 'closest',
-    margin: {t: 0, b: 0, l: 0, r: 0},
-    xaxis: {
-        zeroline: false,
-        showticklabels: false,
-        range: [-5, 105],
-        hoverformat: '.1f',
+  showlegend: false,
+  hovermode: 'closest',
+  margin: {t: 0, b: 0, l: 0, r: 0},
+  xaxis: {
+    zeroline: false,
+    showticklabels: false,
+    range: [-5, 105],
+    hoverformat: '.1f',
+  },
+  yaxis: {
+    zeroline: false,
+    showticklabels: false,
+    range: [-5, 105],
+    hoverformat: '.1f',
+  },
+  shapes: [
+    {
+      type: 'line',
+      line: {width: 1},
+      x0: 50,
+      y0: -10,
+      x1: 50,
+      y1: 110,
     },
-    yaxis: {
-        zeroline: false,
-        showticklabels: false,
-        range: [-5, 105],
-        hoverformat: '.1f',
+    {
+      type: 'line',
+      line: {width: 1},
+      x0: -10,
+      y0: 50,
+      x1: 110,
+      y1: 50,
+    }
+  ],
+  annotations: [
+    {
+      x: 85,
+      y: 100,
+      text: 'エクスプレッシブ',
+      showarrow: false,
     },
-    shapes: [
-        {
-            type: 'line',
-            line: {width: 1},
-            x0: 50,
-            y0: -10,
-            x1: 50,
-            y1: 110,
-        },
-        {
-            type: 'line',
-            line: {width: 1},
-            x0: -10,
-            y0: 50,
-            x1: 110,
-            y1: 50,
-        }
-    ],
-    annotations: [
-        {
-            x: 85,
-            y: 100,
-            text: 'エクスプレッシブ',
-            showarrow: false,
-        },
-        {
-            x: 85,
-            y: 0,
-            text: 'エミアブル',
-            showarrow: false,
-        },
-        {
-            x: 10,
-            y: 0,
-            text: 'アナリティカル',
-            showarrow: false,
-        },
-        {
-            x: 10,
-            y: 100,
-            text: 'ドライビング',
-            showarrow: false,
-        },
-    ],
+    {
+      x: 85,
+      y: 0,
+      text: 'エミアブル',
+      showarrow: false,
+    },
+    {
+      x: 10,
+      y: 0,
+      text: 'アナリティカル',
+      showarrow: false,
+    },
+    {
+      x: 10,
+      y: 100,
+      text: 'ドライビング',
+      showarrow: false,
+    },
+  ],
 };
 
 interface Props {
-    data: SocialStyleEntity[];
-    layout?: GraphLayout;
+  data: SocialStyleEntity[];
+  layout?: GraphLayout;
 }
 
 const SocialStyleGraph = (props: Props) => {
-    const layout = useMemo(() => Object.assign({}, socialStyleLayout, props.layout), [props.layout]);
-    const fallbackComponent = useMemo(() => {
-        return <div
-            className='border border-primary d-flex align-items-center'
-            style={{width: layout.width, height: layout.height}}>
-            <Spinner className='mx-auto d-block' animation='border' variant='primary' style={{top: '50%'}}/>
-        </div>;
-    }, [layout]);
-    const Plot = loadable(async () => plotComponentFactory(await import('plotly.js')), {fallback: fallbackComponent});
+  const layout = useMemo(() => Object.assign({}, socialStyleLayout, props.layout), [props.layout]);
+  const fallbackComponent = useMemo(() => {
+    return <div
+      className='border border-primary d-flex align-items-center'
+      style={{width: layout.width, height: layout.height}}>
+      <Spinner className='mx-auto d-block' animation='border' variant='primary' style={{top: '50%'}}/>
+    </div>;
+  }, [layout]);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
+  const Plot = loadable(async () => plotComponentFactory(await import('plotly.js')), {fallback: fallbackComponent});
 
-    // TODO:
   return <Plot
-    // @ts-ignore
+    // @ts-expect-error: js component.
     className='border border-primary'
     data={props.data.map(data => createPoint(data.name, data.x, data.y))}
     layout={layout}

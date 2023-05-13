@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 sukawasatoru
+ * Copyright 2019, 2023 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import {Button, ButtonGroup} from "react-bootstrap";
 
 interface Props {
     defaultSize: number;
-    onSizeChanged: (size: number) => any;
+    onSizeChanged: (size: number) => void;
 }
 
 const ZoomInOutButton: FunctionComponent<Props> = (props) => {
