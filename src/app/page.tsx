@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, 2021, 2023 sukawasatoru
+ * Copyright 2023 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-import CheckSheet from '@/components/CheckSheet';
-import DeptSocialStyles from '@/components/DeptSocialStyles';
-import {NextPage} from "next";
-import {CSSProperties, default as React, useCallback, useState} from 'react';
-import {Container, Nav, Navbar} from 'react-bootstrap';
+'use client';
+
+import {CSSProperties, useCallback, useState} from "react";
+import {Container, Nav, Navbar} from "react-bootstrap";
+import CheckSheet from "@/components/CheckSheet";
+import DeptSocialStyles from "@/components/DeptSocialStyles";
 
 type PageType = 'checkSheet' | 'user';
 
@@ -29,7 +30,7 @@ const brandStyle: CSSProperties = {
   msUserSelect: 'none',
 };
 
-const Index: NextPage = () => {
+export default function Page(): JSX.Element {
   const [currentPage, setCurrentPage] = useState<PageType>('checkSheet');
   const cbSetCurrentPage = useCallback((eventKey: unknown) => setCurrentPage(eventKey as PageType), []);
 
@@ -52,6 +53,4 @@ const Index: NextPage = () => {
       </Container>
     }
   </>;
-};
-
-export default Index;
+}

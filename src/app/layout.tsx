@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 sukawasatoru
+ * Copyright 2021, 2023 sukawasatoru
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,16 @@
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'material-design-icons/iconfont/material-icons.css';
-import {AppProps} from "next/app";
-import {FunctionComponent} from "react";
+import {ReactNode} from "react";
 
-const App: FunctionComponent<AppProps> = ({Component, pageProps}) => {
-  return <Component {...pageProps} />
+export const metadata = {
+  title: 'Social Styles',
 };
 
-export default App;
+export default function RootLayout({children}: { children: ReactNode }) {
+  return (
+    <html lang="ja">
+    <body>{children}</body>
+    </html>
+  )
+}

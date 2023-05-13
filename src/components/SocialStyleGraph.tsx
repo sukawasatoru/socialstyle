@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import loadable from '@loadable/component';
+import dynamic from "next/dynamic";
 import {default as React, useMemo} from 'react';
 import {Spinner} from "react-bootstrap";
 import plotComponentFactory from 'react-plotly.js/factory';
@@ -101,6 +101,18 @@ const socialStyleLayout: GraphLayout = {
   ],
 };
 
+const Plot = dynamic(
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
+  async () => plotComponentFactory(await import('plotly.js')),
+  {
+    loading: () => {
+      return <div className='border border-primary d-flex align-items-center' style={{height: '100%'}}>
+        <Spinner className='mx-auto d-block' animation='border' variant='primary' style={{top: '50%'}}/>
+      </div>;
+    },
+  },
+);
+
 interface Props {
   data: SocialStyleEntity[];
   layout?: GraphLayout;
@@ -108,22 +120,15 @@ interface Props {
 
 const SocialStyleGraph = (props: Props) => {
   const layout = useMemo(() => Object.assign({}, socialStyleLayout, props.layout), [props.layout]);
-  const fallbackComponent = useMemo(() => {
-    return <div
-      className='border border-primary d-flex align-items-center'
-      style={{width: layout.width, height: layout.height}}>
-      <Spinner className='mx-auto d-block' animation='border' variant='primary' style={{top: '50%'}}/>
-    </div>;
-  }, [layout]);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
-  const Plot = loadable(async () => plotComponentFactory(await import('plotly.js')), {fallback: fallbackComponent});
 
-  return <Plot
-    // @ts-expect-error: js component.
-    className='border border-primary'
-    data={props.data.map(data => createPoint(data.name, data.x, data.y))}
-    layout={layout}
-  />;
+  return <div style={{width: layout.width, height: layout.height}}>
+    <Plot
+      // @ts-expect-error: js component.
+      className='border border-primary'
+      data={props.data.map(data => createPoint(data.name, data.x, data.y))}
+      layout={layout}
+    />
+  </div>;
 };
 
 export default SocialStyleGraph;
