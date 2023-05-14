@@ -19,7 +19,7 @@ module.exports = {
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/prefer-includes': 'error',
-    '@typescript-eslint/restrict-template-expressions': ['error', {allowNullish: true}],
+    '@typescript-eslint/restrict-template-expressions': 'off',
     '@typescript-eslint/triple-slash-reference': 'warn',
     '@typescript-eslint/unified-signatures': 'error',
   },

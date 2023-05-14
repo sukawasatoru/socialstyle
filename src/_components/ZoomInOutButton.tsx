@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-import {default as React, FunctionComponent, useCallback, useEffect, useState} from 'react';
+'use client';
+
+import {default as React, FC, useCallback, useEffect, useState} from 'react';
 import {Button, ButtonGroup} from "react-bootstrap";
 
 interface Props {
@@ -22,8 +24,10 @@ interface Props {
     onSizeChanged: (size: number) => void;
 }
 
-const ZoomInOutButton: FunctionComponent<Props> = (props) => {
-    const [windowSize, setWindowSize] = useState(() => 480 <= window.innerWidth ? 480 : 320);
+const ZoomInOutButton: FC<Props> = (props) => {
+    const [windowSize, setWindowSize] = useState(
+      () => typeof window !== 'undefined' && 480 <= window.innerWidth ? 480 : 320
+    );
     const cbZoomOut = useCallback(() => setWindowSize(prevState => prevState - 20), [setWindowSize]);
     const cbZoomIn = useCallback(() => setWindowSize(prevState => prevState + 20), [setWindowSize]);
     useEffect(() => props.onSizeChanged && props.onSizeChanged(windowSize), [props, windowSize]);

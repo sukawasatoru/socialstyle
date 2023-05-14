@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+'use client';
+
 import dynamic from "next/dynamic";
 import {default as React, useMemo} from 'react';
 import {Spinner} from "react-bootstrap";
@@ -110,6 +112,7 @@ const Plot = dynamic(
         <Spinner className='mx-auto d-block' animation='border' variant='primary' style={{top: '50%'}}/>
       </div>;
     },
+    ssr: false,
   },
 );
 

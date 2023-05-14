@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-import SocialStyleGraph, {GraphLayout, SocialStyleEntity} from "@/components/SocialStyleGraph";
-import ZoomInOutButton from "@/components/ZoomInOutButton";
-import {createBookByFile} from "@/function/JsonBook";
-import {ChangeEvent, default as React, FunctionComponent, useCallback, useEffect, useMemo, useState} from 'react';
+'use client';
+
+import SocialStyleGraph, {GraphLayout, SocialStyleEntity} from "@/_components/SocialStyleGraph";
+import ZoomInOutButton from "@/_components/ZoomInOutButton";
+import {createBookByFile} from "@/_function/JsonBook";
+import {ChangeEvent, default as React, FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {InputGroup, Row} from "react-bootstrap";
 
 const supportFileTypes = [
@@ -76,9 +78,10 @@ class DeptGraphEntity {
   }
 }
 
-const DeptSocialStyles: FunctionComponent<unknown> = () => {
-  const defaultGraphSize = 480 <= window.innerWidth ? 480 : 320;
-  const [graphSize, setGraphSize] = useState(defaultGraphSize);
+const DeptSocialStyles: FC = () => {
+  const [graphSize, setGraphSize] = useState(
+    () => typeof window !== 'undefined' && 480 <= window.innerWidth ? 480 : 320
+  );
   const [inputFile, setInputFile] = useState<File>();
   const [graphSource, setGraphSource] = useState<SocialStyleEntity[]>([]);
   const onInputFile = useCallback((args: ChangeEvent<HTMLInputElement>) => {
@@ -141,7 +144,7 @@ const DeptSocialStyles: FunctionComponent<unknown> = () => {
       </div>
     </InputGroup>
     <Row noGutters className='mb-1'>
-      <ZoomInOutButton defaultSize={defaultGraphSize} onSizeChanged={cbSizeChanged}/>
+      <ZoomInOutButton defaultSize={graphSize} onSizeChanged={cbSizeChanged}/>
     </Row>
     <SocialStyleGraph data={graphSource} layout={graphLayout}/>
   </>;

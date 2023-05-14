@@ -16,14 +16,14 @@
 
 'use client';
 
-import CheckSheet from "@/_components/CheckSheet";
+import DeptSocialStyles from "@/_components/DeptSocialStyles";
 import {JSX} from "react";
 import {Container} from "react-bootstrap";
 
-export default function Page(): JSX.Element {
+export default function FromXLSXPage(): JSX.Element {
   return (
-    <Container className='my-4' style={{maxWidth: '50em'}}>
-      <CheckSheet/>
+    <Container className='my-4' style={{maxWidth: '48em'}}>
+      <DeptSocialStyles/>
     </Container>
   );
 }

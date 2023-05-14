@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import AppNavBar from "@/_components/AppNavBar";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'material-design-icons/iconfont/material-icons.css';
 import {ReactNode} from "react";
@@ -25,7 +26,10 @@ export const metadata = {
 export default function RootLayout({children}: { children: ReactNode }) {
   return (
     <html lang="ja">
-    <body>{children}</body>
+    <body>
+    <AppNavBar/>
+    {children}
+    </body>
     </html>
-  )
+  );
 }

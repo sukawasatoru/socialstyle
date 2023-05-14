@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+'use client';
+
 import {default as React, FunctionComponent, useCallback} from 'react';
 import {ToggleButton, ToggleButtonGroup} from "react-bootstrap";
 

@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+'use client';
+
 import {default as React, useEffect, useMemo, useState} from 'react';
 import {Col, Table, ToggleButton, ToggleButtonGroup} from 'react-bootstrap';
 

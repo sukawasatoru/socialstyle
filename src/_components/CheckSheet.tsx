@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-import CheckSheetPreferences, {Grading} from "@/components/CheckSheetPreferences";
-import {DeptGraphEntity} from "@/components/DeptSocialStyles";
-import SocialStyleGraph, {GraphLayout} from "@/components/SocialStyleGraph";
-import SocialStyleGraphInput, {Entity, QSelection} from "@/components/SocialStyleGraphInput";
+'use client';
+
+import CheckSheetPreferences, {Grading} from "@/_components/CheckSheetPreferences";
+import {DeptGraphEntity} from "@/_components/DeptSocialStyles";
+import SocialStyleGraph, {GraphLayout} from "@/_components/SocialStyleGraph";
+import SocialStyleGraphInput, {Entity, QSelection} from "@/_components/SocialStyleGraphInput";
 import {default as React, FunctionComponent, useCallback, useEffect, useMemo, useState} from 'react';
 import {Button, Modal, Row} from "react-bootstrap";
 
