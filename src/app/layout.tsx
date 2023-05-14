@@ -17,9 +17,10 @@
 import AppNavBar from "@/_components/AppNavBar";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'material-design-icons/iconfont/material-icons.css';
+import {Metadata} from "next";
 import {ReactNode} from "react";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Social Styles',
 };
 
