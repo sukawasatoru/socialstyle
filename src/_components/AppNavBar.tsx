@@ -16,7 +16,7 @@
 
 'use client';
 
-import styles from "@/app/page.module.css";
+import styles from "@/_components/AppNavBar.module.css";
 import clsx from "clsx";
 import Link from "next/link";
 import {useSelectedLayoutSegment} from "next/navigation";
