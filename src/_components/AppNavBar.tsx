@@ -18,6 +18,7 @@
 
 import styles from "@/_components/AppNavBar.module.css";
 import clsx from "clsx";
+import {Route} from "next";
 import Link from "next/link";
 import {useSelectedLayoutSegment} from "next/navigation";
 import {FC} from "react";
@@ -28,10 +29,10 @@ const AppNavBar: FC = () => {
 
   return (
     <Navbar bg='primary' variant='dark'>
-      <Link className={clsx('navbar-brand', styles.brandStyle as string)} href="/">Social Styles</Link>
+      <Link className={clsx('navbar-brand', styles.brandStyle)} href={'/' as Route}>Social Styles</Link>
       <Nav>
         <Nav.Item className={clsx(activeNavItem === null && 'active')}>
-          <Link className='nav-link' href="/">診断する</Link>
+          <Link className='nav-link' href={'/' as Route}>診断する</Link>
         </Nav.Item>
         <Nav.Item className={clsx(activeNavItem === 'from-xlsx' && 'active')}>
           <Link className='nav-link' href="/from-xlsx">ファイルの読み込み</Link>
