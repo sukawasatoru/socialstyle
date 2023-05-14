@@ -17,9 +17,9 @@
 'use client';
 
 import CheckSheetPreferences, {Grading} from "@/_components/CheckSheetPreferences";
-import {DeptGraphEntity} from "@/_components/DeptSocialStyles";
 import SocialStyleGraph, {GraphLayout} from "@/_components/SocialStyleGraph";
 import SocialStyleGraphInput, {Entity, QSelection} from "@/_components/SocialStyleGraphInput";
+import {DeptGraphEntity} from "@/_model/dept-graph-entry";
 import {JSX, useCallback, useEffect, useMemo, useState} from "react";
 import {Button, Container, Modal, Row} from "react-bootstrap";
 
