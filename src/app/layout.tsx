@@ -15,6 +15,7 @@
  */
 
 import AppNavBar from "@/_components/AppNavBar";
+import AppProvider from "@/app/_app-component/AppProvider";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'material-design-icons/iconfont/material-icons.css';
 import {Metadata} from "next";
@@ -24,12 +25,17 @@ export const metadata: Metadata = {
   title: 'Social Styles',
 };
 
-export default function RootLayout({children}: { children: ReactNode }) {
+export default function RootLayout(
+  {children, graphmodal}: { children: ReactNode; graphmodal: ReactNode },
+) {
   return (
     <html lang="ja">
     <body>
-    <AppNavBar/>
-    {children}
+    <AppProvider>
+      <AppNavBar/>
+      {children}
+      {graphmodal}
+    </AppProvider>
     </body>
     </html>
   );

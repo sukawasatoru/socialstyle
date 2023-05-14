@@ -42,6 +42,7 @@
     "react-bootstrap": "1.4.3",
     "react-dom": "18.2.0",
     "react-plotly.js": "2.5.1",
+    "recoil": "0.7.7",
     "typescript": "5.0.4",
     "webpack-bundle-analyzer": "4.8.0",
     "xlsx": "0.16.9"

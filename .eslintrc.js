@@ -11,6 +11,12 @@ module.exports = {
     'project': './tsconfig.json',
   },
   'rules': {
+    'react-hooks/exhaustive-deps': [
+      'warn', {
+        // for recoil https://recoiljs.org/docs/introduction/installation#eslint
+        'additionalHooks': '(useRecoilCallback|useRecoilTransaction_UNSTABLE)'
+      },
+    ],
     '@typescript-eslint/member-delimiter-style': 'warn',
     '@typescript-eslint/member-ordering': 'warn',
     '@typescript-eslint/no-base-to-string': 'error',

@@ -17,11 +17,12 @@
 'use client';
 
 import CheckSheetPreferences, {Grading} from "@/_components/CheckSheetPreferences";
-import SocialStyleGraph, {GraphLayout} from "@/_components/SocialStyleGraph";
 import SocialStyleGraphInput, {Entity, QSelection} from "@/_components/SocialStyleGraphInput";
 import {DeptGraphEntity} from "@/_model/dept-graph-entry";
-import {JSX, useCallback, useEffect, useMemo, useState} from "react";
-import {Button, Container, Modal, Row} from "react-bootstrap";
+import {graphResultState, isGraphModalOpenState} from "@/app/_app-store/graph-modal-state";
+import {JSX, useCallback, useEffect, useState} from "react";
+import {Button, Container, Row} from "react-bootstrap";
+import {useRecoilState} from "recoil";
 
 const questions: Entity[] = [
   {
@@ -200,36 +201,25 @@ const gradingMap: GradingMap = {
 };
 
 export default function Page(): JSX.Element {
-  const [graphLayout, setGraphLayout] = useState<GraphLayout>({
-    width: 480,
-    height: 480,
-  });
-
-  useEffect(() => {
-    if(window.innerWidth < 480) {
-      setGraphLayout({
-        width: 320,
-        height: 320,
-      });
-    }
-  }, []);
-
   const [grading, setGrading] = useState<Grading>('original5');
   const cbGrading = useCallback((value: Grading) => setGrading(value), [setGrading]);
   const [tell, setTell] = useState(new Map<string, number>());
   const [emote, setEmote] = useState(new Map<string, number>());
-  const result = useMemo(() => {
+  const [result, setResult] = useRecoilState(graphResultState);
+
+  useEffect(() => {
     if (tell.size < questions.length || emote.size < questions2.length) {
-      return [];
+      setResult([]);
+      return;
     }
 
     const targetOptions = gradingMap[grading];
     const [x, y] = targetOptions.evaluationFunction(tell, emote, targetOptions.selections);
-    return [{name: 'You', x, y}];
-  }, [tell, emote, grading]);
-  const [showModal, setShowModal] = useState(false);
+    setResult([{name: 'You', x, y}]);
+  }, [emote, grading, setResult, tell]);
+
+  const [, setShowModal] = useRecoilState(isGraphModalOpenState);
   const cbShowModal = useCallback(() => setShowModal(true), [setShowModal]);
-  const hideModal = useCallback(() => setShowModal(false), [setShowModal]);
 
   return (
     <Container className='my-4' style={{maxWidth: '50em'}}>
@@ -242,18 +232,6 @@ export default function Page(): JSX.Element {
           診断
         </Button>
       </Row>
-      <Modal show={showModal} size='xl' onHide={hideModal}>
-        <Modal.Header closeButton onHide={hideModal}>
-          <Modal.Title>
-            Social Style
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className='px-0'>
-          <div className='mx-auto' style={{width: 'max-content'}}>
-            <SocialStyleGraph data={result} layout={graphLayout}/>
-          </div>
-        </Modal.Body>
-      </Modal>
     </Container>
   );
 }
