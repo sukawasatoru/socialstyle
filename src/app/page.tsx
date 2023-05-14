@@ -16,19 +16,13 @@
 
 'use client';
 
-import {CSSProperties, useCallback, useState} from "react";
+import {useCallback, useState, JSX} from "react";
 import {Container, Nav, Navbar} from "react-bootstrap";
 import CheckSheet from "@/components/CheckSheet";
 import DeptSocialStyles from "@/components/DeptSocialStyles";
+import styles from "@/app/page.module.css";
 
 type PageType = 'checkSheet' | 'user';
-
-const brandStyle: CSSProperties = {
-  userSelect: 'none',
-  WebkitUserSelect: 'none',
-  MozUserSelect: 'none',
-  msUserSelect: 'none',
-};
 
 export default function Page(): JSX.Element {
   const [currentPage, setCurrentPage] = useState<PageType>('checkSheet');
@@ -36,7 +30,7 @@ export default function Page(): JSX.Element {
 
   return <>
     <Navbar bg='primary' variant='dark' onSelect={cbSetCurrentPage}>
-      <Navbar.Brand style={brandStyle}>Social Styles</Navbar.Brand>
+      <Navbar.Brand className={styles.brandStyle}>Social Styles</Navbar.Brand>
       <Nav defaultActiveKey='checkSheet'>
         <Nav.Link eventKey='checkSheet'>診断する</Nav.Link>
         <Nav.Link eventKey='user'>ファイルの読み込み</Nav.Link>
