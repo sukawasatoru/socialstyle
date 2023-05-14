@@ -22,39 +22,37 @@ import {Route} from "next";
 import Link from "next/link";
 import {useSelectedLayoutSegment} from "next/navigation";
 import {FC} from "react";
-import {Nav, Navbar} from "react-bootstrap";
+import {Nav, Navbar, NavbarBrand} from "react-bootstrap";
 
-const AppNavBar: FC<{basePath: string}> = ({basePath}) => {
+const AppNavBar: FC<{ isGhPages: boolean }> = ({isGhPages}) => {
   const activeNavItem = useSelectedLayoutSegment();
 
   return (
     <Navbar bg='primary' variant='dark'>
-      <Link
-        className={clsx('navbar-brand', styles.brandStyle)}
-        // #44197 add basePath.
-        href={`${basePath}/` as Route}
-      >
-        Social Styles
-      </Link>
+      {isGhPages ?
+        <NavbarBrand className={styles.brandStyle}>
+          Social Styles
+        </NavbarBrand>
+        :
+        <Link className={clsx('navbar-brand', styles.brandStyle)} href={'/' as Route}>
+          Social Styles
+        </Link>
+      }
       <Nav>
-        <Nav.Item className={clsx(activeNavItem === null && 'active')}>
-          <Link
-            className='nav-link'
-            // #44197 add basePath.
-            href={`${basePath}/` as Route}
-          >
-            診断する
-          </Link>
-        </Nav.Item>
-        <Nav.Item className={clsx(activeNavItem === 'from-xlsx' && 'active')}>
-          <Link
-            className='nav-link'
-            // #44197 add basePath.
-            href={`${basePath}/from-xlsx` as Route}
-          >
-            ファイルの読み込み
-          </Link>
-        </Nav.Item>
+        {
+          !isGhPages && <>
+            <Nav.Item className={clsx(activeNavItem === null && 'active')}>
+              <Link className='nav-link' href={'/' as Route}>
+                診断する
+              </Link>
+            </Nav.Item>
+            <Nav.Item className={clsx(activeNavItem === 'from-xlsx' && 'active')}>
+              <Link className='nav-link' href='/from-xlsx'>
+                ファイルの読み込み
+              </Link>
+            </Nav.Item>
+          </>
+        }
       </Nav>
     </Navbar>
   );

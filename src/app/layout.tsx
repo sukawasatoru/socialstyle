@@ -29,13 +29,13 @@ export const metadata: Metadata = {
 export default function RootLayout(
   {children, graphmodal}: { children: ReactNode; graphmodal: ReactNode },
 ): JSX.Element {
-  const basePath = getBasePath();
+  const isGhPages = !!getBasePath();
 
   return (
     <html lang="ja">
     <body>
     <AppProvider>
-      <AppNavBar basePath={basePath}/>
+      <AppNavBar isGhPages={isGhPages}/>
       {children}
       {graphmodal}
     </AppProvider>
