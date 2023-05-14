@@ -24,7 +24,7 @@ import {useSelectedLayoutSegment} from "next/navigation";
 import {FC} from "react";
 import {Nav, Navbar} from "react-bootstrap";
 
-const AppNavBar: FC = () => {
+const AppNavBar: FC<{basePath: string}> = ({basePath}) => {
   const activeNavItem = useSelectedLayoutSegment();
 
   return (
@@ -32,7 +32,7 @@ const AppNavBar: FC = () => {
       <Link
         className={clsx('navbar-brand', styles.brandStyle)}
         // #44197 add basePath.
-        href={`${process.env.PATHCONTEXT ?? ''}/` as Route}
+        href={`${basePath}/` as Route}
       >
         Social Styles
       </Link>
@@ -41,7 +41,7 @@ const AppNavBar: FC = () => {
           <Link
             className='nav-link'
             // #44197 add basePath.
-            href={`${process.env.PATHCONTEXT ?? ''}/` as Route}
+            href={`${basePath}/` as Route}
           >
             診断する
           </Link>
@@ -50,7 +50,7 @@ const AppNavBar: FC = () => {
           <Link
             className='nav-link'
             // #44197 add basePath.
-            href={`${process.env.PATHCONTEXT ?? ''}/from-xlsx` as Route}
+            href={`${basePath}/from-xlsx` as Route}
           >
             ファイルの読み込み
           </Link>

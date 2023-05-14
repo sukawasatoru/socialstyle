@@ -19,7 +19,8 @@ import AppProvider from "@/app/_app-component/AppProvider";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'material-design-icons/iconfont/material-icons.css';
 import {Metadata} from "next";
-import {ReactNode} from "react";
+import process from "process";
+import {JSX, ReactNode} from "react";
 
 export const metadata: Metadata = {
   title: 'Social Styles',
@@ -27,16 +28,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout(
   {children, graphmodal}: { children: ReactNode; graphmodal: ReactNode },
-) {
+): JSX.Element {
+  const basePath = getBasePath();
+
   return (
     <html lang="ja">
     <body>
     <AppProvider>
-      <AppNavBar/>
+      <AppNavBar basePath={basePath}/>
       {children}
       {graphmodal}
     </AppProvider>
     </body>
     </html>
   );
+}
+
+function getBasePath(): string {
+  // #44197 basePath for <Link/>.
+  return process.env.PATH_CONTEXT ?? '';
 }
