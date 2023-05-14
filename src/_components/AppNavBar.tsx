@@ -29,13 +29,31 @@ const AppNavBar: FC = () => {
 
   return (
     <Navbar bg='primary' variant='dark'>
-      <Link className={clsx('navbar-brand', styles.brandStyle)} href={'/' as Route}>Social Styles</Link>
+      <Link
+        className={clsx('navbar-brand', styles.brandStyle)}
+        // #44197 add basePath.
+        href={`${process.env.PATHCONTEXT ?? ''}/` as Route}
+      >
+        Social Styles
+      </Link>
       <Nav>
         <Nav.Item className={clsx(activeNavItem === null && 'active')}>
-          <Link className='nav-link' href={'/' as Route}>診断する</Link>
+          <Link
+            className='nav-link'
+            // #44197 add basePath.
+            href={`${process.env.PATHCONTEXT ?? ''}/` as Route}
+          >
+            診断する
+          </Link>
         </Nav.Item>
         <Nav.Item className={clsx(activeNavItem === 'from-xlsx' && 'active')}>
-          <Link className='nav-link' href="/from-xlsx">ファイルの読み込み</Link>
+          <Link
+            className='nav-link'
+            // #44197 add basePath.
+            href={`${process.env.PATHCONTEXT ?? ''}/from-xlsx` as Route}
+          >
+            ファイルの読み込み
+          </Link>
         </Nav.Item>
       </Nav>
     </Navbar>
